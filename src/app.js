@@ -11,6 +11,7 @@ import 'moment';
 import 'chartist';
 import 'normalize.css/normalize.css';
 import 'bootstrap/dist/css/bootstrap.min.css';
+import './fonts/icomoon/icomoon.css';
 import './styles/styles.scss';
 
 const ProfilePage = () => (

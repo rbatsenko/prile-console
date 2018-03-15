@@ -1,12 +1,9 @@
 import React from 'react';
 
 const Footer = () => (
-        <footer className='footer'>
-            <div className='container'>
-                <h1 className='header__title'>Footer</h1>
-                <h2 className='header__subtitle'>Copyright</h2>
-            </div>
-        </footer>
-    );
+    <footer className="main-footer fixed-btm">
+        Copyright Prile Admin 2018.
+    </footer>
+);
 
 export default Footer;

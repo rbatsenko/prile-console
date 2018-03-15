@@ -3474,6 +3474,7 @@ a.blog-sm {
 			background-color: $primary-color;
 			height: 100%;
 			width: 6px;
+			margin-right: 4px;
 			@include border-radius(10px);
 			display: inline-block;
 			-moz-animation: linedelay 1.1s infinite ease-in-out;

@@ -13,7 +13,7 @@ const style3 = {
 };
 
 const Header = () => (
-    <header className="app-header">
+    <div className="app-header">
         <div className="container-fluid">
             <div className="row gutters">
                 <div className="col-xl-5 col-lg-5 col-md-5 col-sm-3 col-4">
@@ -25,7 +25,7 @@ const Header = () => (
                     </a>
                 </div>
                 <div className="col-xl-2 col-lg-2 col-md-2 col-sm-6 col-4">
-                    <a href="index.html" className="logo">
+                    <a href="/" className="logo">
                         <img src="images/login-logo.png" alt="Prile Admin Dashboard" />
                     </a>
                 </div>
@@ -138,7 +138,7 @@ const Header = () => (
                 </div>
             </div>
         </div>
-    </header>
-    );
+    </div>
+);
 
 export default Header;

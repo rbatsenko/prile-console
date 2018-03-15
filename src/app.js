@@ -1,6 +1,7 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
 import $ from 'jquery';
+import 'tether';
 import 'popper.js';
 import 'normalize.css/normalize.css';
 import 'bootstrap';

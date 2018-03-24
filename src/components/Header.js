@@ -1,4 +1,5 @@
 import React from 'react';
+import $ from 'jquery';
 
 const style1 = {
     width: '87%'
@@ -20,8 +21,8 @@ const Header = () => (
                     <a className="mini-nav-btn" href="#" id="app-side-mini-toggler">
                         <i className="icon-menu5"></i>
                     </a>
-                    <a href="#app-side" data-toggle="onoffcanvas" className="onoffcanvas-toggler" aria-expanded="true">
-                        <i className="icon-chevron-thin-left"></i>
+                    <a href="#app-side" data-toggle="onoffcanvas" className="onoffcanvas-toggler" aria-expanded="false">
+                        <i className="icon-chevron-thin-right"></i>
                     </a>
                 </div>
                 <div className="col-xl-2 col-lg-2 col-md-2 col-sm-6 col-4">
@@ -140,5 +141,30 @@ const Header = () => (
         </div>
     </div>
 );
+
+$(function () {
+    $('.side-nav .unifyMenu').metisMenu({ toggle: true });
+
+    $('#app-side-hoverable-toggler').on('click', function () {
+        $('.app-side').toggleClass('is-hoverable');
+        $(undefined).children('i.fa').toggleClass('fa-angle-right fa-angle-left');
+    });
+
+    $('#app-side-mini-toggler').on('click', function () {
+        $('.app-side').toggleClass('is-mini');
+        $("#app-side-mini-toggler i").toggleClass('icon-sort icon-menu5');
+    });
+
+    $('#onoffcanvas-nav').on('click', function () {
+        $('.app-side').toggleClass('left-toggle');
+        $('.app-main').toggleClass('left-toggle');
+        $("#onoffcanvas-nav i").toggleClass('icon-sort icon-menu5');
+    });
+    
+    $('.onoffcanvas-toggler').on('click', function () {
+        $('.app-side').toggleClass('is-open');
+        $(".onoffcanvas-toggler i").toggleClass('icon-chevron-thin-left icon-chevron-thin-right');
+    });
+});
 
 export default Header;

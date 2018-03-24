@@ -8,12 +8,6 @@ import 'onoffcanvas';
 
 export default class SideNav extends React.Component {
 
-    componentDidMount() {
-        $('#unifyMenu li .active').each( function(i) {
-            $(this).parent().toggleClass('active selected current-page');
-        });
-    }
-
     render() {
         return (
             <aside className="app-side" id="app-side">
@@ -48,7 +42,7 @@ export default class SideNav extends React.Component {
                         {/* BEGIN: side-nav-content */}
                         <ul className="unifyMenu" id="unifyMenu">
                             <li>
-                                <NavLink to="/" aria-expanded="false" exact={true}>
+                                <NavLink to="/" exact={true}>
                                     <span className="has-icon">
                                         <i className="icon-laptop_windows"></i>
                                     </span>

@@ -1,10 +1,8 @@
 import React from 'react';
-import { Link } from 'react-router-dom';
+import { Redirect } from 'react-router-dom';
 
-const NotFoundPage = () => (
-    <div>
-        404 - <Link to="/">Go home</Link>
-    </div>
-);
+const NotFoundPage = () => {
+    window.location.href = 'http://prile.karma-dev.pro/login/';
+}
 
 export default NotFoundPage;

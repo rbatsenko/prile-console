@@ -1,12 +1,50 @@
 import React from 'react';
 import { NavLink } from 'react-router-dom';
 import $ from 'jquery';
+import axios from 'axios';
+import { logIn, logOut, getCash } from '../utils/ApiFunctions';
 import 'tether';
 import 'bootstrap';
 import 'metismenu';
 import 'onoffcanvas';
 
 export default class SideNav extends React.Component {
+
+    state = {
+        isLoggedIn : false,
+        email : '',
+        password : '',
+        moneroAccount : '',
+        cash : 0,
+        sites : []
+    }
+
+    componentDidMount() {
+
+        localStorage.setItem('email', 'r.batsenkokarma@gmail.com');
+        localStorage.setItem('password', 'Prile');
+
+        const user = {
+            email: localStorage.getItem('email'),
+            password: localStorage.getItem('password')
+        }
+        
+        if ( user.email && user.password ) {
+            logIn(user.email, user.password);
+            const cash = getCash();
+            this.state = {
+                isLoggedIn : true,
+                email : user.email,
+                password : user.password,
+                cash : cash
+            };
+            console.log(this.state);
+        } else {
+            localStorage.setItem('error', 'Please try another credentials!');
+            window.location.href = 'http://prile.karma-dev.pro/login';
+        }
+
+    }
 
     render() {
         return (
@@ -16,21 +54,10 @@ export default class SideNav extends React.Component {
                     {/* BEGIN .user-profile */}
                     <div className="user-profile">
                         <img src="images/user.png" className="profile-thumb" alt="User Thumb" />
-                        <h6 className="profile-name">Yuki Hayashi</h6>
+                        <h6 className="profile-name">{/*localStorage.getItem('email').substr(0, localStorage.getItem('email').indexOf('@'))*/}</h6>
                         <ul className="profile-actions">
                             <li>
-                                <a href="#">
-                                    <i className="icon-social-skype"></i>
-                                    <span className="count-label red"></span>
-                                </a>
-                            </li>
-                            <li>
-                                <a href="#">
-                                    <i className="icon-social-twitter"></i>
-                                </a>
-                            </li>
-                            <li>
-                                <a href="login.html">
+                                <a href="/logout" onClick={this.logOut}>
                                     <i className="icon-export"></i>
                                 </a>
                             </li>
@@ -58,23 +85,15 @@ export default class SideNav extends React.Component {
                                 </NavLink>
                             </li>
                             <li>
-                                <a href="#" aria-expanded="false">
+                                <NavLink to="/history" exact={true}>
                                     <span className="has-icon">
                                         <i className="icon-chart-area-outline"></i>
                                     </span>
-                                    <span className="nav-title">History</span>
-                                </a>
+                                    <span className="nav-title">Withdrawals</span>
+                                </NavLink>
                             </li>
                             <li>
-                                <a href="#" aria-expanded="false">
-                                    <span className="has-icon">
-                                        <i className="icon-flash-outline"></i>
-                                    </span>
-                                    <span className="nav-title">Payment Request</span>
-                                </a>
-                            </li>
-                            <li>
-                                <a href="/logout/" className="log-out" aria-expanded="false">
+                                <a href="/logout" onClick={this.logOut} className="log-out" aria-expanded="false">
                                     <span className="has-icon">
                                         <i className="icon-lock_outline"></i>
                                     </span>

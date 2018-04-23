@@ -948,10 +948,11 @@ hr {
 				}
 				span.user-name {
 					margin-left: 5px;
+					padding: 0 5px;
 					vertical-align: middle;
 					font-size: .85rem;
 					display: inline-block;
-					max-width: 90px;
+					//max-width: 90px;
 					overflow: hidden;
 					white-space: nowrap;
 					text-overflow: ellipsis;
@@ -1087,7 +1088,7 @@ ul.user-settings-list {
 	margin: 15px 0;
 	> li {
 		border-right: 1px solid $border-bg;
-		width: 33.33%;
+		width: 50%;
 		a {
 			font-size: 13px;
 			text-align: center;
@@ -4645,11 +4646,29 @@ address {
 label {
 	line-height: 1.8;
 }
+
+.input-group-addon {
+    padding: .5rem .75rem;
+    margin-bottom: 0;
+    font-size: .9rem;
+    font-weight: 400;
+    line-height: 1.25;
+    color: #495057;
+    text-align: center;
+    background-color: #e9ecef;
+    border: 1px solid rgba(0,0,0,.15);
+    border-radius: .25rem;
+}
+
 .input-group-addon {
 	border: 1px solid $border-bg;
 	background: $body-bg;
 	@include border-radius(0);
 	color: $font-color-light;
+}
+
+.input-group-addon:not(:last-child) {
+    border-right: 0;
 }
 
 /*************** Tables ***************/
@@ -4725,11 +4744,54 @@ label {
 
 /***************** CUSTOM **************************/
 .fade-enter {
-	opacity: 0;
-	z-index: 1;
+	opacity: 0.01;
+	left: 30px;
+}
+
+.fade-enter-active {
+	opacity: 1;
+	left: 0;
+  	transition: all 300ms ease-in-out;
 }
   
-.fade-enter.fade-enter-active {
+.fade-exit {
 	opacity: 1;
-	transition: opacity 250ms ease-in;
+	top: 0;
+}
+
+.fade-exit-active {
+	opacity: 0.01;
+	top: 30px;
+  	transition: all 300ms ease-in-out;
+}
+
+.mini-nav-btn,
+.onoffcanvas-toggler {
+	cursor: pointer;
+}
+
+.app-container {
+    min-height: 90vh;
+}
+
+.payment-request .monthly-avg {
+    padding: 2rem .3rem;
+}
+
+.payment-request .monthly-avg h6 {
+    margin: 15px 20px 10px 20px;
+}
+
+.right-actions .btn.btn-primary {
+    outline: none !important;
+    box-shadow: none !important;
+    border: none !important;
+}
+
+.card-single-website {
+    margin: 15px 0;
+}
+
+.card-single-website .input-group:first-of-type {
+	margin-bottom: 15px;
 }

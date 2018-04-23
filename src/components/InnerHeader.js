@@ -1,4 +1,5 @@
 import React from 'react';
+import { NavLink } from 'react-router-dom';
 
 const InnerHeader = () => (
     <header className="main-heading">
@@ -15,9 +16,9 @@ const InnerHeader = () => (
                 </div>
                 <div className="col-xl-4 col-lg-4 col-md-4 col-sm-4">
                     <div className="right-actions">
-                        <a href="#" className="btn btn-primary float-right" title="Payment Request">
+                        <NavLink to="/payment-request" className="btn btn-primary float-right" title="Payment Request">
                             <span>Payment Request</span><i className="icon-download4"></i>
-                        </a>
+                        </NavLink>
                     </div>
                 </div>
             </div>

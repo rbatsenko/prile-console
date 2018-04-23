@@ -1,6 +1,7 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
-import AppRouter from './routers/AppRouter';
+import { BrowserRouter } from 'react-router-dom';
+import App from './components/App';
 import $ from 'jquery';
 import 'tether';
 import 'popper.js';
@@ -15,4 +16,8 @@ import 'bootstrap/dist/css/bootstrap.min.css';
 import './fonts/icomoon/icomoon.css';
 import './styles/styles.scss';
 
-ReactDOM.render(<AppRouter />, document.getElementById('app'));
+ReactDOM.render(
+    <BrowserRouter>
+        <App />
+    </BrowserRouter>
+, document.getElementById('app'));

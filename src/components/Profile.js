@@ -5,10 +5,19 @@ import axios from 'axios';
 export default class Profile extends React.Component {
 
     state = {
+        passwordChangeActive: false,
+        passwordOld: '',
+        passwordNew1: '',
+        passwordNew2: '',
         email: '',
-        password: '',
         monero: '',
         sites: []
+    }
+
+    constructor(props) {
+        super(props);
+        // This binding is necessary to make `this` work in the callback
+        this.clearPasswordFields = this.clearPasswordFields.bind(this);
     }
 
     SitesList = () => {
@@ -58,6 +67,41 @@ export default class Profile extends React.Component {
             email: '',
             www: ''
         }
+    }
+    
+    activateChangePassword(e) {
+        console.log('activateChangePassword');
+        this.setState(() => ({ passwordChangeActive: true }));
+        this.clearPasswordFields();
+    }
+
+    cancelChangePassword(e) {
+        console.log('cancelChangePassword');
+        this.setState(() => ({ passwordChangeActive: false }));
+        this.clearPasswordFields();
+    }
+
+    clearPasswordFields() {
+        this.setState(() => ({ passwordOld: '' }));
+        this.setState(() => ({ passwordNew1: '' }));
+        this.setState(() => ({ passwordNew2: '' }));
+    }
+
+    changePassword(e) {
+        console.log('changePassword ' + this.state.passwordOld + " " + this.state.passwordNew1 + " " + this.state.passwordNew2);
+        // TODO impl
+    }
+
+    handleChangePasswordOld(e) {
+        this.setState({ passwordOld: e.target.value });
+    }
+
+    handleChangePasswordNew1(e) {
+        this.setState({ passwordNew1: e.target.value });
+    }
+
+    handleChangePasswordNew2(e) {
+        this.setState({ passwordNew2: e.target.value });
     }
 
     copyToClipboard(e) {
@@ -148,19 +192,54 @@ export default class Profile extends React.Component {
                                 </div>
                                 <div className="form-group">
                                     <label htmlFor="old-password">Password</label>
-                                    <div className="row gutters">
-                                        <div className="col">
-                                            <input type="text" className="form-control" id="old-password" placeholder="Old password" />
+
+                                    {!this.state.passwordChangeActive ? (
+                                        <div className="row gutters" >
+                                            <div className="col">
+                                                <div className="input-group">
+                                                    <input type="password" className="form-control" placeholder="••••••••••" aria-label="Password" readOnly={true}  />
+                                                    <span className="input-group-btn">
+                                                        <button id="change-password" className="btn btn-primary" type="button" onClick={ this.activateChangePassword.bind(this) }>Change</button>
+                                                    </span>
+                                                </div>
+                                            </div>
                                         </div>
-                                        <div className="col">
-                                            <div className="input-group form-group">
-                                                <input type="text" id="new-password" className="form-control" placeholder="New password" aria-label="New password"/>
+                                    ) : (
+                                        <div className="row gutters" >
+                                            <div className="col">
+                                                <input
+                                                    type="password"
+                                                    className="form-control"
+                                                    placeholder="Old password"
+                                                    aria-label="Old password"
+                                                    onChange={ this.handleChangePasswordOld.bind(this) } />
+                                            </div>
+                                            <div className="col" style={{flexGrow: 2.2}}>
+                                                <div className="input-group form-group">
+                                                    <input
+                                                        type="password"
+                                                        className="form-control"
+                                                        placeholder="New password"
+                                                        aria-label="New password"
+                                                        onChange={ this.handleChangePasswordNew1.bind(this) } />
+                                                    <input
+                                                        type="password"
+                                                        className="form-control"
+                                                        placeholder="Re-enter new password"
+                                                        aria-label="Re-enter new password"
+                                                        onChange={ this.handleChangePasswordNew2.bind(this)} />
+                                                    <span className="input-group-btn">
+                                                        <button id="update-password" className="btn btn-primary" type="button" onClick={ this.changePassword.bind(this) }>Save</button>
+                                                    </span>
+                                                </div>
+                                            </div>
+                                            <div>
                                                 <span className="input-group-btn">
-                                                    <button id="update-password" className="btn btn-primary" type="button">Save</button>
+                                                    <button className="btn btn-dark btn-sep" type="button" onClick={ this.cancelChangePassword.bind(this) }>Cancel</button>
                                                 </span>
                                             </div>
                                         </div>
-                                    </div>
+                                    )}
                                 </div>
                                 <label htmlFor="monero-account">Monero account</label>
                                 <div className="input-group form-group">

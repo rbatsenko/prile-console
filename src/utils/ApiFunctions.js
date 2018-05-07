@@ -45,19 +45,19 @@ export const logOut = (e) => {
 
 //Account Controller************************************************
 
-export const getAndDisplaySites = () => {
+export const getSites = () => {
     axios.get('http://www.prile.io/api/accounts/current',
             {
                 headers: { 'Content-Type': 'application/json' }
             })
             .then( (response) => {
                 if (response.status == 200) {
-                    console.log(response);
-                    $('#profile-email').val(response.data.email);
-                    $('#monero-account').val(response.data.moneroAcc);
+                    //console.log(response);
+                    //$('#profile-email').val(response.data.email);
+                    //$('#monero-account').val(response.data.moneroAcc);
                     const listOfSites = response.data.sites;
-                    this.setState( () => ({ sites: listOfSites }));
-                    console.log(this.state);
+                    console.log(listOfSites);
+                    return listOfSites;
                 }
             })
             .catch( (error) => {

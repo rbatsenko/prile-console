@@ -2,7 +2,7 @@ import React from 'react';
 import { NavLink } from 'react-router-dom';
 import $ from 'jquery';
 import axios from 'axios';
-import { logIn, logOut, getCash } from '../utils/ApiFunctions';
+import { logIn, logOut, getCash, getSites } from '../utils/ApiFunctions';
 import 'tether';
 import 'bootstrap';
 import 'metismenu';
@@ -10,14 +10,27 @@ import 'onoffcanvas';
 
 export default class SideNav extends React.Component {
 
-    state = {
+    constructor(props) {
+        super(props);
+    
+        this.state = {
+            isLoggedIn : false,
+            email : '',
+            password : '',
+            moneroAccount : '',
+            cash : 0,
+            sites : []
+        }
+    }
+
+    /*state = {
         isLoggedIn : false,
         email : '',
         password : '',
         moneroAccount : '',
         cash : 0,
         sites : []
-    }
+    }*/
 
     componentDidMount() {
 
@@ -32,12 +45,14 @@ export default class SideNav extends React.Component {
         if ( user.email && user.password ) {
             logIn(user.email, user.password);
             const cash = getCash();
-            this.state = {
+            const sites = getSites();
+
+            /*this.state = {
                 isLoggedIn : true,
                 email : user.email,
                 password : user.password,
                 cash : cash
-            };
+            };*/
             console.log(this.state);
         } else {
             localStorage.setItem('error', 'Please try another credentials!');

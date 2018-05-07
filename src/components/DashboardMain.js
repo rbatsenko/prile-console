@@ -2,8 +2,27 @@ import React from 'react';
 import $ from 'jquery';
 import { getSites } from '../utils/ApiFunctions';
 import axios from 'axios';
+import c3 from 'c3';
 
 export default class DashboardMain extends React.Component {
+
+    state = {
+        sites: []
+    }
+
+    SitesList = () => {
+
+        const sites = this.state.sites;
+        const sitesList = sites.map((site, index) =>
+            <button type="button" className="btn btn-primary btn-block" key={index}>{site.description}</button>
+        );
+        return (
+            <div className="col-xl-4 col-lg-4 col-md-4 col-sm-12">
+                <button type="button" className="btn btn-primary btn-block">General</button>
+                {sitesList}
+            </div>
+        );
+    }
 
     componentDidMount() {
 
@@ -15,6 +34,7 @@ export default class DashboardMain extends React.Component {
                 if (response.status == 200) {
                     const listOfSites = response.data.sites;
                     this.setState( () => ({ sites: listOfSites }));
+                    console.log(this.state);
                 }
             })
             .catch( (error) => {
@@ -28,6 +48,7 @@ export default class DashboardMain extends React.Component {
             .then( (response) => {
                 if (response.status == 200) {
                     $('.monero-amount').text(response.data.moneroAmount);
+                    $('.modal-body').text(response.data.moneroAmount);
                 }
             })
             .catch( (error) => {
@@ -39,6 +60,43 @@ export default class DashboardMain extends React.Component {
                 $(this).addClass('active selected current-page');
             } else {
                 $(this).removeClass('active selected current-page');
+            }
+        });
+
+        var chart2 = c3.generate({
+            bindto: '#graph',
+            padding: {
+                top: 0,
+                left: 30,
+                right: 0,
+                bottom: 0
+            },
+            axis: {
+                y: {
+                    tick: {
+                      values: [0, 1, 2]
+                    }
+                  }
+            },
+            data: {
+                x: 'x',
+                columns: [
+                    ['x', 1, 2, 3, 4],
+                    ['data1', 0, 0, 1, 1],
+                    ['data2', 0, 1, 2, 2],
+                ],
+                types: {
+                    data1: 'line',
+                    data2: 'line'
+                },
+                names: {
+                    data1: 'Prile Tokens',
+                    data2: 'Prile Power'
+                },
+                colors: {
+                    data1: '#007ae1',
+                    data2: '#ff5661'
+                },
             }
         });
 
@@ -59,9 +117,27 @@ export default class DashboardMain extends React.Component {
                                         <h4 className="monero-amount"></h4>
                                     </div>
                                     <div className="col-xl-9 col-lg-9 col-md-9 col-sm-12 right-actions">
-                                        <button className="btn btn-primary float-right" title="Payment Request">
+                                        <button className="btn btn-primary float-right" title="Payment Request" data-toggle="modal" data-target="#exampleModal">
                                             <span>Payment Request</span><i className="icon-download4"></i>
                                         </button>
+										
+										<div className="modal fade" id="exampleModal" tabIndex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+											<div className="modal-dialog" role="document">
+												<div className="modal-content">
+													<div className="modal-header">
+														<h5 className="modal-title" id="exampleModalLabel">Payment Request</h5>
+														<button type="button" className="close" data-dismiss="modal" aria-label="Close">
+															<span aria-hidden="true">×</span>
+														</button>
+													</div>
+													<div className="modal-body"></div>
+													<div className="modal-footer">
+														<button type="button" className="btn btn-secondary" data-dismiss="modal">Close</button>
+														<button type="button" className="btn btn-primary">Withdraw</button>
+													</div>
+												</div>
+											</div>
+										</div>
                                     </div>
                                 </div>
                                 {/* Row end */}
@@ -76,34 +152,47 @@ export default class DashboardMain extends React.Component {
                             <div className="card-body">
                                 {/* Row start */}
                                 <div className="row gutters">
-                                    <div className="col-xl-3 col-lg-3 col-md-3 col-sm-12">
-                                        <div className="monthly-avg">
-                                            <h6>Monthly Average</h6>
-                                            <div className="avg-block">
-                                                <h4 className="avg-total text-secondary">9500</h4>
-                                                <h6 className="avg-label">
-                                                    Shares
-                                                </h6>
-                                            </div>
-                                            <div className="avg-block">
-                                                <h4 className="avg-total text-primary">500</h4>
-                                                <h6 className="avg-label">
-                                                    Cash
-                                                </h6>
-                                            </div>
-                                        </div>
+                                    <div className="col-xl-8 col-lg-8 col-md-8 col-sm-12">
+                                        <table className="table table-bordered m-0">
+											<thead>
+												<tr>
+													<th>#</th>
+													<th>Last Month</th>
+													<th>Total</th>
+												</tr>
+											</thead>
+											<tbody>
+												<tr>
+													<th scope="row">Prile Tokens</th>
+													<td>1</td>
+													<td>4</td>
+												</tr>
+												<tr>
+													<th scope="row">Prile Power</th>
+													<td>2</td>
+													<td>2</td>
+												</tr>
+												<tr>
+													<th scope="row">% AdBlock Entries</th>
+													<td>7</td>
+													<td>8</td>
+												</tr>
+											</tbody>
+										</table>
                                     </div>
-                                    <div className="col-xl-9 col-lg-9 col-md-9 col-sm-12">
-                                        <h6 className="card-title mt-0">Mining</h6>
-                                        <div className="chartist custom-two">
-                                            <div className="line-chart2"></div>
-                                        </div>
-                                        <div className="download-details">
-                                            <p>15<sup>%</sup> more sales than last month</p>
-                                        </div>
-                                    </div>
+                                    <this.SitesList/>
                                 </div>
                                 {/* Row end */}
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div className="row gutters">
+                    <div className="col-lg-12 col-md-12 col-sm-12">
+                        <div className="card">
+                            <div className="card-header">Statistics</div>
+                            <div className="card-body">
+                                <div id="graph" className="chart-height"></div>
                             </div>
                         </div>
                     </div>

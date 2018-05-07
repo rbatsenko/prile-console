@@ -9,12 +9,14 @@ import 'bootstrap';
 import 'slimscroll';
 import 'moment';
 import 'chartist';
+import c3 from 'c3';
 import 'metismenu';
 import 'onoffcanvas';
 import 'normalize.css/normalize.css';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import './fonts/icomoon/icomoon.css';
 import './styles/styles.scss';
+import './styles/c3.min.css';
 
 ReactDOM.render(
     <BrowserRouter>

@@ -50,5 +50,5 @@
     "webpack-merge": "^4.1.2"
   },
   "description": "priledashboard",
-  "repository": "https://github.com/rbatsenko/prile-dashboard.git"
+  "repository": "https://bitbucket.org/rbatsenko/prileconsole.git"
 }

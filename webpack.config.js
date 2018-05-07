@@ -31,5 +31,5 @@ module.exports = {
     contentBase: path.join(__dirname, 'public'),
     historyApiFallback: true
   },
-  mode: 'development'
+  mode: 'production'
 };

@@ -7,20 +7,55 @@ import c3 from 'c3';
 export default class DashboardMain extends React.Component {
 
     state = {
-        sites: []
+        sites: [],
+        general: [],
+        sitesStats: []
     }
 
     SitesList = () => {
 
         const sites = this.state.sites;
         const sitesList = sites.map((site, index) =>
-            <button type="button" className="btn btn-primary btn-block" key={index}>{site.description}</button>
+            <button type="button" className="btn btn-outline-primary btn-block" key={index}>{site.description}</button>
         );
         return (
             <div className="col-xl-4 col-lg-4 col-md-4 col-sm-12">
                 <button type="button" className="btn btn-primary btn-block">General</button>
                 {sitesList}
             </div>
+        );
+    }
+
+    generalTable = () => {
+        const general = this.state.general;
+        
+        return (
+            <table id="generalTable" className="table table-bordered m-0">
+                <thead>
+                    <tr>
+                        <th>#</th>
+                        <th>Last Month</th>
+                        <th>Total</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <th scope="row">Prile Tokens</th>
+                        <td>{general.tokensActMonth}</td>
+                        <td>{general.tokensTotal}</td>
+                    </tr>
+                    <tr>
+                        <th scope="row">Prile Power</th>
+                        <td>{general.powerActMonth}</td>
+                        <td>{general.powerTotal}</td>
+                    </tr>
+                    <tr>
+                        <th scope="row">% AdBlock Entries</th>
+                        <td>{general.adblockPercentActMonth}</td>
+                        <td>{general.adblockPercentTotal}</td>
+                    </tr>
+                </tbody>
+            </table>
         );
     }
 
@@ -34,6 +69,25 @@ export default class DashboardMain extends React.Component {
                 if (response.status == 200) {
                     const listOfSites = response.data.sites;
                     this.setState( () => ({ sites: listOfSites }));
+                    console.log(this.state);
+                }
+            })
+            .catch( (error) => {
+                console.log(error);
+            });
+
+        axios.get('http://www.prile.io/api/accounts/current/dashboardStats',
+            {
+                headers: { 'Content-Type': 'application/json' }
+            })
+            .then( (response) => {
+                if (response.status == 200) {
+                    const general = response.data.general;
+                    const sites = response.data.sites;
+                    this.setState( () => ({ 
+                        general: general, 
+                        sitesStats: sites 
+                    }));
                     console.log(this.state);
                 }
             })
@@ -71,18 +125,16 @@ export default class DashboardMain extends React.Component {
                 right: 0,
                 bottom: 0
             },
-            axis: {
+            /*axis: {
                 y: {
                     tick: {
                       values: [0, 1, 2]
                     }
                   }
-            },
+            },*/
             data: {
-                x: 'x',
                 columns: [
-                    ['x', 1, 2, 3, 4],
-                    ['data1', 0, 0, 1, 1],
+                    ['data1', /*this.state.general.tokenChart.month*/],
                     ['data2', 0, 1, 2, 2],
                 ],
                 types: {
@@ -153,32 +205,7 @@ export default class DashboardMain extends React.Component {
                                 {/* Row start */}
                                 <div className="row gutters">
                                     <div className="col-xl-8 col-lg-8 col-md-8 col-sm-12">
-                                        <table className="table table-bordered m-0">
-											<thead>
-												<tr>
-													<th>#</th>
-													<th>Last Month</th>
-													<th>Total</th>
-												</tr>
-											</thead>
-											<tbody>
-												<tr>
-													<th scope="row">Prile Tokens</th>
-													<td>1</td>
-													<td>4</td>
-												</tr>
-												<tr>
-													<th scope="row">Prile Power</th>
-													<td>2</td>
-													<td>2</td>
-												</tr>
-												<tr>
-													<th scope="row">% AdBlock Entries</th>
-													<td>7</td>
-													<td>8</td>
-												</tr>
-											</tbody>
-										</table>
+                                        <this.generalTable/>
                                     </div>
                                     <this.SitesList/>
                                 </div>

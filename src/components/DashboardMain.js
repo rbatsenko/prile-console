@@ -86,7 +86,7 @@ export default class DashboardMain extends React.Component {
                     const sites = response.data.sites;
                     this.setState( () => ({ 
                         general: general, 
-                        sitesStats: sites 
+                        sitesStats: sites,
                     }));
                     console.log(this.state);
                 }
@@ -117,11 +117,12 @@ export default class DashboardMain extends React.Component {
             }
         });
 
-        var chart2 = c3.generate({
+        setTimeout( () => {
+            var chart2 = c3.generate({
             bindto: '#graph',
             padding: {
                 top: 0,
-                left: 30,
+                left: 50,
                 right: 0,
                 bottom: 0
             },
@@ -133,10 +134,10 @@ export default class DashboardMain extends React.Component {
                   }
             },*/
             data: {
-                columns: [
-                    ['data1', /*this.state.general.tokenChart.month*/],
-                    ['data2', 0, 1, 2, 2],
-                ],
+                json: {
+                    data1: this.state.general.tokenChart.month,
+                    data2: this.state.general.powerChart.month
+                },
                 types: {
                     data1: 'line',
                     data2: 'line'
@@ -151,6 +152,7 @@ export default class DashboardMain extends React.Component {
                 },
             }
         });
+        }, 1000);
 
     }
 

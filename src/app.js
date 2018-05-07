@@ -1,6 +1,6 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
-import { BrowserRouter } from 'react-router-dom';
+import { BrowserRouter, browserHistory } from 'react-router-dom';
 import App from './components/App';
 import $ from 'jquery';
 import 'tether';
@@ -19,7 +19,7 @@ import './styles/styles.scss';
 import './styles/c3.min.css';
 
 ReactDOM.render(
-    <BrowserRouter>
+    <BrowserRouter history={browserHistory}>
         <App />
     </BrowserRouter>
 , document.getElementById('app'));

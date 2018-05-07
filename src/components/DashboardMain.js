@@ -119,40 +119,33 @@ export default class DashboardMain extends React.Component {
 
         setTimeout( () => {
             var chart2 = c3.generate({
-            bindto: '#graph',
-            padding: {
-                top: 0,
-                left: 50,
-                right: 0,
-                bottom: 0
-            },
-            /*axis: {
-                y: {
-                    tick: {
-                      values: [0, 1, 2]
-                    }
-                  }
-            },*/
-            data: {
-                json: {
-                    data1: this.state.general.tokenChart.month,
-                    data2: this.state.general.powerChart.month
+                bindto: '#graph',
+                padding: {
+                    top: 0,
+                    left: 50,
+                    right: 0,
+                    bottom: 0
                 },
-                types: {
-                    data1: 'line',
-                    data2: 'line'
-                },
-                names: {
-                    data1: 'Prile Tokens',
-                    data2: 'Prile Power'
-                },
-                colors: {
-                    data1: '#007ae1',
-                    data2: '#ff5661'
-                },
-            }
-        });
-        }, 1000);
+                data: {
+                    json: {
+                        data1: this.state.general.tokenChart.month,
+                        data2: this.state.general.powerChart.month
+                    },
+                    types: {
+                        data1: 'line',
+                        data2: 'line'
+                    },
+                    names: {
+                        data1: 'Prile Tokens',
+                        data2: 'Prile Power'
+                    },
+                    colors: {
+                        data1: '#007ae1',
+                        data2: '#ff5661'
+                    },
+                }
+            });
+        }, 400);
 
     }
 

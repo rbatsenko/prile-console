@@ -128,7 +128,7 @@ export default class DashboardMain extends React.Component {
                 },
                 data: {
                     json: {
-                        data1: this.state.general.tokenChart.month,
+                        data1: this.state.general.tokenChart.month.reverse(),
                         data2: this.state.general.powerChart.month
                     },
                     types: {
@@ -198,7 +198,7 @@ export default class DashboardMain extends React.Component {
                             <div className="card-header">Overview</div>
                             <div className="card-body">
                                 {/* Row start */}
-                                <div className="row gutters">
+                                <div className="row gutters overview">
                                     <div className="col-xl-8 col-lg-8 col-md-8 col-sm-12">
                                         <this.generalTable/>
                                     </div>

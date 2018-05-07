@@ -34,7 +34,7 @@ body {
 body {
 	margin: 0;
 	padding: 0;
-	font: normal 14px 'Open Sans', sans-serif;
+	font: normal 14px 'Roboto', sans-serif;
 	color: $font-color;
 	background: $body-bg;
 	// Scrollbar styles
@@ -4810,4 +4810,9 @@ label {
 
 .avg-total {
 	margin-bottom: 0;
+}
+
+.overview .btn:focus {
+	box-shadow: none;
+	color: #007ae1;
 }

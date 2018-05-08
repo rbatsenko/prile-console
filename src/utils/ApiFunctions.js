@@ -56,7 +56,7 @@ export const getSites = () => {
                     //$('#profile-email').val(response.data.email);
                     //$('#monero-account').val(response.data.moneroAcc);
                     const listOfSites = response.data.sites;
-                    console.log(listOfSites);
+                    //console.log(listOfSites);
                     return listOfSites;
                 }
             })

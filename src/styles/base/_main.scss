@@ -2740,7 +2740,7 @@ a.blog-sm {
 /*************** Map/Chart/Graph Heights ***************/
 .chart-height {
 	position: relative;
-	height: 210px;
+	height: 300px;
 }
 .chart-height-2 {
 	position: relative;
@@ -4814,6 +4814,14 @@ label {
 
 .overview .btn:focus {
 	box-shadow: none;
+	color: #007ae1;
+}
+
+.btn {
+	box-shadow: none !important;
+}
+
+.btn:focus {
 	color: #007ae1;
 }
 

@@ -3,30 +3,33 @@ import $ from 'jquery';
 import { getSites } from '../utils/ApiFunctions';
 import axios from 'axios';
 import c3 from 'c3';
+import dateFormat from 'dateformat';
 
 export default class DashboardMain extends React.Component {
 
     state = {
         sites: [],
         general: [],
-        sitesStats: []
+        sitesStats: [],
+        dataChoice: 'general',
+        activeGraph: 'month'
     }
 
-    SitesList = () => {
+    SitesButtons = () => {
 
         const sites = this.state.sites;
-        const sitesList = sites.map((site, index) =>
-            <button type="button" className="btn btn-outline-primary btn-block" key={index}>{site.description}</button>
+        const sitesButtons = sites.map((site, index) =>
+            <button type="button" className="btn btn-outline-primary btn-block" key={index} onClick={ (e) => { this.activeBtn(e); this.dataSwitch(e); } } data-site={site.siteId}>{site.description}</button>
         );
         return (
             <div className="col-xl-4 col-lg-4 col-md-4 col-sm-12">
-                <button type="button" className="btn btn-primary btn-block">General</button>
-                {sitesList}
+                <button type="button" className="btn btn-outline-primary btn-block active" onClick={ (e) => { this.activeBtn(e); this.dataSwitch(e); } } data-site={'general'}>General</button>
+                {sitesButtons}
             </div>
         );
     }
 
-    generalTable = () => {
+    GeneralTable = () => {
         const general = this.state.general;
         
         return (
@@ -59,6 +62,219 @@ export default class DashboardMain extends React.Component {
         );
     }
 
+    /*---------------Charts------------------*/
+
+    getDateArray = (start, end) => {
+        let arr = new Array();
+        let dt = new Date(start);
+        while (dt <= end) {
+            arr.push(dateFormat(dt, "dd.mm.yyyy"));
+            dt.setDate(dt.getDate() + 1);
+        }
+        return arr;
+    }
+
+    lastWeek = () => {
+        let startDate = new Date();
+        startDate.setDate(startDate.getDate() - 7);
+        let endDate = new Date();
+        
+        let dateArr = this.getDateArray(startDate, endDate);
+        dateArr.unshift('x');
+        return dateArr;
+    }
+
+    buildWeekChart = (dataChoice) => {
+
+        let weekTokenArr, weekPowerArr;
+        if (dataChoice == 'general') {
+            weekTokenArr = this.state[dataChoice].tokenChart.month;
+            weekPowerArr = this.state[dataChoice].powerChart.month;
+        } else {
+            weekTokenArr = this.state.sitesStats[dataChoice].tokenChart.month;
+            weekPowerArr = this.state.sitesStats[dataChoice].powerChart.month;
+        }
+
+        let chart2 = c3.generate({
+            bindto: '#graph',
+            padding: {
+                top: 30,
+                left: 50,
+                right: 30,
+                bottom: 0
+            },
+            data: {
+                x: 'x',
+                xFormat: '%d.%m.%Y',
+                columns: [
+                    this.lastWeek(),
+                    weekTokenArr,
+                    weekPowerArr
+                ],
+                types: {
+                    data1: 'spline',
+                    data2: 'spline'
+                },
+                names: {
+                    data1: 'Prile Tokens',
+                    data2: 'Prile Power'
+                },
+                colors: {
+                    data1: '#007ae1',
+                    data2: '#ff5661'
+                },
+            },
+            axis: {
+                x: {
+                    type: 'timeseries',
+                    tick: {
+                        format: '%d.%m.%Y'
+                    }
+                }
+            }
+        });
+
+        this.setState(() => ({ activeGraph: 'week' }));
+        console.log(this.state);
+    }
+
+    lastMonth = () => {
+        let startDate = new Date();
+        startDate.setDate(startDate.getDate() - 30);
+        let endDate = new Date();
+        
+        let dateArr = this.getDateArray(startDate, endDate);
+        dateArr.unshift('x');
+        return dateArr;
+    }
+
+    buildMonthChart = (dataChoice) => {
+
+        let monthTokenArr, monthPowerArr;
+        if (dataChoice == 'general') {
+            monthTokenArr = this.state[dataChoice].tokenChart.month;
+            monthPowerArr = this.state[dataChoice].powerChart.month;
+        } else {
+            monthTokenArr = this.state.sitesStats[dataChoice].tokenChart.month;
+            monthPowerArr = this.state.sitesStats[dataChoice].powerChart.month;
+        }
+
+        let chart2 = c3.generate({
+            bindto: '#graph',
+            padding: {
+                top: 30,
+                left: 50,
+                right: 30,
+                bottom: 0
+            },
+            data: {
+                x: 'x',
+                xFormat: '%d.%m.%Y',
+                columns: [
+                    this.lastMonth(),
+                    monthTokenArr,
+                    monthPowerArr
+                ],
+                types: {
+                    data1: 'spline',
+                    data2: 'spline'
+                },
+                names: {
+                    data1: 'Prile Tokens',
+                    data2: 'Prile Power'
+                },
+                colors: {
+                    data1: '#007ae1',
+                    data2: '#ff5661'
+                },
+            },
+            axis: {
+                x: {
+                    type: 'timeseries',
+                    tick: {
+                        format: '%d.%m.%Y'
+                    }
+                }
+            }
+        });
+
+        this.setState(() => ({ activeGraph: 'month' }));
+        console.log(this.state);
+    }
+
+    lastYear = () => {
+        let monthNames = ["Jan","Feb","Mar","Apr","May","Jun","Jul","Aug","Sep","Oct","Nov","Dec"];
+        let currentMonth = (new Date()).getMonth() + 1;
+        let year = monthNames.slice(currentMonth).concat(monthNames.slice(0, currentMonth));
+        return year;
+    }
+
+    buildYearChart = (dataChoice) => {
+
+        let yearTokenArr, yearPowerArr;
+        if (dataChoice == 'general') {
+            yearTokenArr = this.state[dataChoice].tokenChart.year;
+            yearPowerArr = this.state[dataChoice].powerChart.year;
+        } else {
+            yearTokenArr = this.state.sitesStats[dataChoice].tokenChart.year;
+            yearPowerArr = this.state.sitesStats[dataChoice].powerChart.year;
+        }
+        
+        let chart2 = c3.generate({
+            bindto: '#graph',
+            padding: {
+                top: 30,
+                left: 50,
+                right: 30,
+                bottom: 0
+            },
+            data: {
+                columns: [
+                    yearTokenArr,
+                    yearPowerArr
+                ],
+                types: {
+                    data1: 'spline',
+                    data2: 'spline'
+                },
+                names: {
+                    data1: 'Prile Tokens',
+                    data2: 'Prile Power'
+                },
+                colors: {
+                    data1: '#007ae1',
+                    data2: '#ff5661'
+                },
+            },
+            axis: {
+                x: {
+                    type: 'category',
+                    categories: this.lastYear()
+                }
+            }
+        });
+
+        this.setState(() => ({ activeGraph: 'year' }));
+        console.log(this.state);
+    }
+
+    activeBtn = (e) => {
+        $(e.target).parent().find('button').removeClass('active');
+        e.target.className += ' active';
+    }
+
+    dataSwitch = (e) => {
+        let site = $(e.target).attr('data-site');
+        this.setState( () => ({ dataChoice: site }));
+        if (this.state.activeGraph == 'week') {
+            this.buildWeekChart(site);
+        } else if (this.state.activeGraph == 'month') {
+            this.buildMonthChart(site);
+        } else if (this.state.activeGraph == 'year') {
+            this.buildYearChart(site);
+        }
+    }
+
     componentDidMount() {
 
         axios.get('http://www.prile.io/api/accounts/current',
@@ -83,11 +299,32 @@ export default class DashboardMain extends React.Component {
             .then( (response) => {
                 if (response.status == 200) {
                     const general = response.data.general;
-                    const sites = response.data.sites;
+                    let sites = response.data.sites;
+                    console.log(sites[Object.keys(sites)[0]]);
+                    general.tokenChart.week.reverse().unshift('data1');
+                    general.powerChart.week.unshift('data2');
+                    general.tokenChart.month.reverse().unshift('data1');
+                    general.powerChart.month.unshift('data2');
+                    general.tokenChart.year.reverse().unshift('data1');
+                    general.powerChart.year.unshift('data2');
+
+                    let i;
+                    for (i = 0; i < Object.keys(sites).length; i++) {
+                        sites[Object.keys(sites)[i]].tokenChart.week.reverse().unshift('data1');
+                        sites[Object.keys(sites)[i]].tokenChart.month.reverse().unshift('data1');
+                        sites[Object.keys(sites)[i]].tokenChart.year.reverse().unshift('data1');
+                    }
+                    for (i = 0; i < Object.keys(sites).length; i++) {
+                        sites[Object.keys(sites)[i]].powerChart.week.reverse().unshift('data2');
+                        sites[Object.keys(sites)[i]].powerChart.month.reverse().unshift('data2');
+                        sites[Object.keys(sites)[i]].powerChart.year.reverse().unshift('data2');
+                    }
+
                     this.setState( () => ({ 
                         general: general, 
-                        sitesStats: sites,
+                        sitesStats: sites
                     }));
+                    this.buildMonthChart(this.state.dataChoice);
                     console.log(this.state);
                 }
             })
@@ -116,37 +353,6 @@ export default class DashboardMain extends React.Component {
                 $(this).removeClass('active selected current-page');
             }
         });
-
-        setTimeout( () => {
-            var chart2 = c3.generate({
-                bindto: '#graph',
-                padding: {
-                    top: 0,
-                    left: 50,
-                    right: 0,
-                    bottom: 0
-                },
-                data: {
-                    json: {
-                        data1: this.state.general.tokenChart.month.reverse(),
-                        data2: this.state.general.powerChart.month
-                    },
-                    types: {
-                        data1: 'line',
-                        data2: 'line'
-                    },
-                    names: {
-                        data1: 'Prile Tokens',
-                        data2: 'Prile Power'
-                    },
-                    colors: {
-                        data1: '#007ae1',
-                        data2: '#ff5661'
-                    },
-                }
-            });
-        }, 400);
-
     }
 
     render() {
@@ -200,9 +406,9 @@ export default class DashboardMain extends React.Component {
                                 {/* Row start */}
                                 <div className="row gutters overview">
                                     <div className="col-xl-8 col-lg-8 col-md-8 col-sm-12">
-                                        <this.generalTable/>
+                                        <this.GeneralTable/>
                                     </div>
-                                    <this.SitesList/>
+                                    <this.SitesButtons/>
                                 </div>
                                 {/* Row end */}
                             </div>
@@ -214,6 +420,13 @@ export default class DashboardMain extends React.Component {
                         <div className="card">
                             <div className="card-header">Statistics</div>
                             <div className="card-body">
+                                <div className="clearfix">
+                                    <div className="btn-group custom-btn-group float-right graph-buttons" role="group">
+                                        <button type="button" className="btn btn-outline-primary btn-sm btn-rounded" onClick={ (e) => { this.activeBtn(e); this.buildWeekChart(this.state.dataChoice) } }>Last Week</button>
+                                        <button type="button" className="btn btn-outline-primary btn-sm btn-rounded active" onClick={ (e) => { this.activeBtn(e); this.buildMonthChart(this.state.dataChoice) } }>Last Month</button>
+                                        <button type="button" className="btn btn-outline-primary btn-sm btn-rounded" onClick={ (e) => { this.activeBtn(e); this.buildYearChart(this.state.dataChoice) } }>Last Year</button>
+                                    </div>
+                                </div>
                                 <div id="graph" className="chart-height"></div>
                             </div>
                         </div>

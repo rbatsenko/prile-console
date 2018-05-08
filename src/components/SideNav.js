@@ -53,7 +53,7 @@ export default class SideNav extends React.Component {
                 password : user.password,
                 cash : cash
             };*/
-            console.log(this.state);
+            //console.log(this.state);
         } else {
             localStorage.setItem('error', 'Please try another credentials!');
             window.location.href = 'http://prile.karma-dev.pro/login';

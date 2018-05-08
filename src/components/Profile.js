@@ -17,7 +17,7 @@ export default class Profile extends React.Component {
     constructor(props) {
         super(props);
         // This binding is necessary to make `this` work in the callback
-        this.clearPasswordFields = this.clearPasswordFields.bind(this);
+        //this.clearPasswordFields = this.clearPasswordFields.bind(this);
     }
 
     SitesList = () => {
@@ -62,56 +62,56 @@ export default class Profile extends React.Component {
         );
     }
 
-    profileUpdate() {
+    profileUpdate = () => {
         const profile = {
             email: '',
             www: ''
         }
     }
     
-    activateChangePassword(e) {
+    activateChangePassword = (e) => {
         console.log('activateChangePassword');
         this.setState(() => ({ passwordChangeActive: true }));
         this.clearPasswordFields();
     }
 
-    cancelChangePassword(e) {
+    cancelChangePassword = (e) => {
         console.log('cancelChangePassword');
         this.setState(() => ({ passwordChangeActive: false }));
         this.clearPasswordFields();
     }
 
-    clearPasswordFields() {
+    clearPasswordFields = () => {
         this.setState(() => ({ passwordOld: '' }));
         this.setState(() => ({ passwordNew1: '' }));
         this.setState(() => ({ passwordNew2: '' }));
     }
 
-    changePassword(e) {
+    changePassword = (e) => {
         console.log('changePassword ' + this.state.passwordOld + " " + this.state.passwordNew1 + " " + this.state.passwordNew2);
         // TODO impl
     }
 
-    handleChangePasswordOld(e) {
+    handleChangePasswordOld = (e) => {
         this.setState({ passwordOld: e.target.value });
     }
 
-    handleChangePasswordNew1(e) {
+    handleChangePasswordNew1 = (e) => {
         this.setState({ passwordNew1: e.target.value });
     }
 
-    handleChangePasswordNew2(e) {
+    handleChangePasswordNew2 = (e) => {
         this.setState({ passwordNew2: e.target.value });
     }
 
-    copyToClipboard(e) {
+    copyToClipboard = (e) => {
         $(e.target).parent().parent().find('input').select();
         document.execCommand("Copy");
         e.target.dataset.originalTitle = "Your Site ID is succesfully copied to clipboard!";
         alert('Your Site ID is succesfully copied to clipboard!');
     }
 
-    updateSiteDesc(e) {
+    updateSiteDesc = (e) => {
         //$(e.target)
 
         axios.post('http://www.prile.io/api/accounts/current/sites', {

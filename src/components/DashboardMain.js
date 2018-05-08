@@ -64,6 +64,7 @@ export default class DashboardMain extends React.Component {
 
     /*---------------Charts------------------*/
 
+    //helper for building date range array
     getDateArray = (start, end) => {
         let arr = new Array();
         let dt = new Date(start);
@@ -258,11 +259,13 @@ export default class DashboardMain extends React.Component {
         console.log(this.state);
     }
 
+    //Switching all buttons active style
     activeBtn = (e) => {
         $(e.target).parent().find('button').removeClass('active');
         e.target.className += ' active';
     }
 
+    //Switching between Websites data and rebuilding graphs
     dataSwitch = (e) => {
         let site = $(e.target).attr('data-site');
         this.setState( () => ({ dataChoice: site }));

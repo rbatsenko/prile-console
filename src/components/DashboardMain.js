@@ -302,11 +302,11 @@ export default class DashboardMain extends React.Component {
                     let sites = response.data.sites;
                     console.log(sites[Object.keys(sites)[0]]);
                     general.tokenChart.week.reverse().unshift('data1');
-                    general.powerChart.week.unshift('data2');
+                    general.powerChart.week.reverse().unshift('data2');
                     general.tokenChart.month.reverse().unshift('data1');
-                    general.powerChart.month.unshift('data2');
+                    general.powerChart.month.reverse().unshift('data2');
                     general.tokenChart.year.reverse().unshift('data1');
-                    general.powerChart.year.unshift('data2');
+                    general.powerChart.year.reverse().unshift('data2');
 
                     let i;
                     for (i = 0; i < Object.keys(sites).length; i++) {

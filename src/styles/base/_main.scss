@@ -4825,3 +4825,39 @@ label {
 .form-control {
 	line-height: 1.5rem;
 }
+
+.general-table {
+	thead {
+		tr {
+			th:nth-of-type(2),
+			th:nth-of-type(3) {
+				text-align: right;
+			}
+		}
+	}
+	tbody {
+		tr {
+			td:first-of-type,
+			td:nth-of-type(2) {
+				text-align: right;
+			}
+		}
+	}
+}
+
+.withdrawals-history {
+	thead {
+		tr {
+			th:nth-of-type(2) {
+				text-align: right;
+			}
+		}
+	}
+	tbody {
+		tr {
+			td:nth-of-type(2) {
+				text-align: right;
+			}
+		}
+	}
+}

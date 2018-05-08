@@ -30,7 +30,7 @@ export default class DashboardMain extends React.Component {
         const general = this.state.general;
         
         return (
-            <table id="generalTable" className="table table-bordered m-0">
+            <table id="generalTable" className="table general-table table-bordered m-0">
                 <thead>
                     <tr>
                         <th>#</th>

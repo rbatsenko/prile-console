@@ -75,13 +75,28 @@ export default class DashboardMain extends React.Component {
         return arr;
     }
 
+    getHoursArray = (hour) => {
+        let i,j;
+        let arr = [];
+
+        for (i = hour; i <= 24; i++) {
+            arr.push(i + ':00');
+        }
+        for (j = 1; j < hour; j++) {
+            arr.push(j + ':00');
+        }
+
+        arr = arr.concat(arr).concat(arr).concat(arr).concat(arr).concat(arr).concat(arr);
+        return arr;
+    }
+
     lastWeek = () => {
-        let startDate = new Date();
-        startDate.setDate(startDate.getDate() - 7);
-        let endDate = new Date();
+        let startHour = new Date();
+        startHour = startHour.getHours();
         
-        let dateArr = this.getDateArray(startDate, endDate);
-        dateArr.unshift('x');
+        let dateArr = this.getHoursArray(startHour);
+        //dateArr.unshift('x');
+        console.log(dateArr);
         return dateArr;
     }
 
@@ -89,12 +104,18 @@ export default class DashboardMain extends React.Component {
 
         let weekTokenArr, weekPowerArr;
         if (dataChoice == 'general') {
-            weekTokenArr = this.state[dataChoice].tokenChart.month;
-            weekPowerArr = this.state[dataChoice].powerChart.month;
+            weekTokenArr = this.state[dataChoice].tokenChart.week;
+            weekPowerArr = this.state[dataChoice].powerChart.week;
         } else {
-            weekTokenArr = this.state.sitesStats[dataChoice].tokenChart.month;
-            weekPowerArr = this.state.sitesStats[dataChoice].powerChart.month;
+            weekTokenArr = this.state.sitesStats[dataChoice].tokenChart.week;
+            weekPowerArr = this.state.sitesStats[dataChoice].powerChart.week;
         }
+
+        //X axis shown points fix
+        c3.chart.internal.fn.categoryName = function (i) {
+            var config = this.config, categoryIndex = Math.ceil(i);
+            return i < config.axis_x_categories.length ? config.axis_x_categories[categoryIndex] : i;
+        };
 
         let chart2 = c3.generate({
             bindto: '#graph',
@@ -105,10 +126,7 @@ export default class DashboardMain extends React.Component {
                 bottom: 0
             },
             data: {
-                x: 'x',
-                xFormat: '%d.%m.%Y',
                 columns: [
-                    this.lastWeek(),
                     weekTokenArr,
                     weekPowerArr
                 ],
@@ -125,11 +143,17 @@ export default class DashboardMain extends React.Component {
                     data2: '#ff5661'
                 },
             },
+            point: {
+                show: false
+            },
             axis: {
                 x: {
-                    type: 'timeseries',
+                    type: 'category',
+                    categories: this.lastWeek(),
                     tick: {
-                        format: '%d.%m.%Y'
+                        count: 24,
+                        rotate: -30,
+                        multiline: false
                     }
                 }
             }
@@ -280,6 +304,8 @@ export default class DashboardMain extends React.Component {
 
     componentDidMount() {
 
+        this.lastWeek();
+
         axios.get('http://www.prile.io/api/accounts/current',
             {
                 headers: { 'Content-Type': 'application/json' }
@@ -305,7 +331,7 @@ export default class DashboardMain extends React.Component {
                     let sites = response.data.sites;
                     console.log(sites[Object.keys(sites)[0]]);
                     general.tokenChart.week.reverse().unshift('data1');
-                    general.powerChart.week.reverse().unshift('data2');
+                    general.powerChart.week/*.reverse()*/.unshift('data2');
                     general.tokenChart.month.reverse().unshift('data1');
                     general.powerChart.month.reverse().unshift('data2');
                     general.tokenChart.year.reverse().unshift('data1');

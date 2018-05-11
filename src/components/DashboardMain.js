@@ -227,6 +227,9 @@ export default class DashboardMain extends React.Component {
                     data2: '#ff5661'
                 },
             },
+            point: {
+                show: false
+            },
             axis: {
                 x: {
                     type: 'timeseries',
@@ -283,6 +286,9 @@ export default class DashboardMain extends React.Component {
                     data1: '#007ae1',
                     data2: '#ff5661'
                 },
+            },
+            point: {
+                show: false
             },
             axis: {
                 x: {
@@ -402,7 +408,7 @@ export default class DashboardMain extends React.Component {
             .then( (response) => {
                 if (response.status == 200) {
                     this.setState(() => ({ 
-                        moneroAmount: response.data.moneroAmount,
+                        moneroAmount: response.data.moneroAmount.toFixed(5),
                         withdrawalAvailable: response.data.withdrawalAvailable
                     }));
                 }

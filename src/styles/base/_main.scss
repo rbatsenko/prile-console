@@ -4825,6 +4825,14 @@ label {
 	color: #007ae1;
 }
 
+.right-actions {
+	.btn {
+		&:focus {
+			color: white;
+		}
+	}
+}
+
 .btn-sep {
 	margin-left: 8px;
 	margin-right: 8px;

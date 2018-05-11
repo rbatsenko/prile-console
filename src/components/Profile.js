@@ -149,12 +149,10 @@ export default class Profile extends React.Component {
             })
             .then( (response) => {
                 if (response.status == 200) {
-                    console.log(response);
                     $('#profile-email').val(response.data.email);
                     $('#monero-account').val(response.data.moneroAcc);
                     const listOfSites = response.data.sites;
                     this.setState( () => ({ sites: listOfSites }));
-                    console.log(this.state);
                 }
             })
             .catch( (error) => {

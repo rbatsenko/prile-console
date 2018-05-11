@@ -30,7 +30,22 @@ export default class DashboardMain extends React.Component {
     }
 
     GeneralTable = () => {
-        const general = this.state.general;
+        let monthTokens, monthPower, monthAd, totalTokens, totalPower, totalAd;
+        if (this.state.dataChoice == 'general') {
+            monthTokens = this.state[this.state.dataChoice].tokensActMonth;
+            monthPower = this.state[this.state.dataChoice].powerActMonth;
+            monthAd = this.state[this.state.dataChoice].adblockPercentActMonth;
+            totalTokens = this.state[this.state.dataChoice].tokensTotal;
+            totalPower = this.state[this.state.dataChoice].powerTotal;
+            totalAd = this.state[this.state.dataChoice].adblockPercentTotal;
+        } else {
+            monthTokens = this.state.sitesStats[this.state.dataChoice].tokensActMonth;
+            monthPower = this.state.sitesStats[this.state.dataChoice].powerActMonth;
+            monthAd = this.state.sitesStats[this.state.dataChoice].adblockPercentActMonth;
+            totalTokens = this.state.sitesStats[this.state.dataChoice].tokensTotal;
+            totalPower = this.state.sitesStats[this.state.dataChoice].powerTotal;
+            totalAd = this.state.sitesStats[this.state.dataChoice].adblockPercentTotal;
+        }
         
         return (
             <table id="generalTable" className="table general-table table-bordered m-0">
@@ -44,18 +59,18 @@ export default class DashboardMain extends React.Component {
                 <tbody>
                     <tr>
                         <th scope="row">Prile Tokens</th>
-                        <td>{general.tokensActMonth}</td>
-                        <td>{general.tokensTotal}</td>
+                        <td>{monthTokens}</td>
+                        <td>{totalTokens}</td>
                     </tr>
                     <tr>
                         <th scope="row">Prile Power</th>
-                        <td>{general.powerActMonth}</td>
-                        <td>{general.powerTotal}</td>
+                        <td>{monthPower}</td>
+                        <td>{totalPower}</td>
                     </tr>
                     <tr>
                         <th scope="row">% AdBlock Entries</th>
-                        <td>{general.adblockPercentActMonth}</td>
-                        <td>{general.adblockPercentTotal}</td>
+                        <td>{monthAd}</td>
+                        <td>{totalAd}</td>
                     </tr>
                 </tbody>
             </table>
@@ -95,8 +110,6 @@ export default class DashboardMain extends React.Component {
         startHour = startHour.getHours();
         
         let dateArr = this.getHoursArray(startHour);
-        //dateArr.unshift('x');
-        console.log(dateArr);
         return dateArr;
     }
 
@@ -160,7 +173,6 @@ export default class DashboardMain extends React.Component {
         });
 
         this.setState(() => ({ activeGraph: 'week' }));
-        console.log(this.state);
     }
 
     lastMonth = () => {
@@ -224,7 +236,6 @@ export default class DashboardMain extends React.Component {
         });
 
         this.setState(() => ({ activeGraph: 'month' }));
-        console.log(this.state);
     }
 
     lastYear = () => {
@@ -280,7 +291,6 @@ export default class DashboardMain extends React.Component {
         });
 
         this.setState(() => ({ activeGraph: 'year' }));
-        console.log(this.state);
     }
 
     //Switching all buttons active style
@@ -314,7 +324,6 @@ export default class DashboardMain extends React.Component {
                 if (response.status == 200) {
                     const listOfSites = response.data.sites;
                     this.setState( () => ({ sites: listOfSites }));
-                    console.log(this.state);
                 }
             })
             .catch( (error) => {
@@ -329,7 +338,7 @@ export default class DashboardMain extends React.Component {
                 if (response.status == 200) {
                     const general = response.data.general;
                     let sites = response.data.sites;
-                    console.log(sites[Object.keys(sites)[0]]);
+
                     general.tokenChart.week.reverse().unshift('data1');
                     general.powerChart.week/*.reverse()*/.unshift('data2');
                     general.tokenChart.month.reverse().unshift('data1');
@@ -354,7 +363,6 @@ export default class DashboardMain extends React.Component {
                         sitesStats: sites
                     }));
                     this.buildMonthChart(this.state.dataChoice);
-                    console.log(this.state);
                 }
             })
             .catch( (error) => {

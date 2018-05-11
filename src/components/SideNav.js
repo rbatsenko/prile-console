@@ -23,41 +23,42 @@ export default class SideNav extends React.Component {
         }
     }
 
-    /*state = {
-        isLoggedIn : false,
-        email : '',
-        password : '',
-        moneroAccount : '',
-        cash : 0,
-        sites : []
-    }*/
+    user = {
+        email: 'r.batsenkokarma@gmail.com',
+        password: 'Prile'
+    };
 
     componentDidMount() {
 
-        localStorage.setItem('email', 'r.batsenkokarma@gmail.com');
-        localStorage.setItem('password', 'Prile');
+        //localStorage.setItem('email', 'r.batsenkokarma@gmail.com');
+        //localStorage.setItem('password', 'Prile');
 
-        const user = {
-            email: localStorage.getItem('email'),
-            password: localStorage.getItem('password')
-        }
+        axios.post('http://www.prile.io/api/session', {
+                email: this.user.email,
+                password: this.user.password
+            },
+            {
+                headers: { 'Content-Type': 'application/json' }
+            }
+            )
+            .then((response) => {
+                if (response.status == 200) {
+                    console.log('Success!');
+                } else {
+                    localStorage.setItem('error', 'Please try another credentials!');
+                    window.location.href = 'http://prile.karma-dev.pro/login';
+                }
+            })
+            .catch((error) => {
+                //console.log(error);
+            });
         
-        if ( user.email && user.password ) {
-            logIn(user.email, user.password);
-            const cash = getCash();
-            const sites = getSites();
-
-            /*this.state = {
-                isLoggedIn : true,
-                email : user.email,
-                password : user.password,
-                cash : cash
-            };*/
-            //console.log(this.state);
+        /*if ( user.email && user.password ) {
+            
         } else {
             localStorage.setItem('error', 'Please try another credentials!');
             window.location.href = 'http://prile.karma-dev.pro/login';
-        }
+        }*/
 
     }
 

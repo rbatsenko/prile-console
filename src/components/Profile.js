@@ -146,7 +146,7 @@ export default class Profile extends React.Component {
     updateSiteDesc = (e) => {
         //$(e.target)
 
-        axios.post('http://www.prile.io/api/accounts/current/sites', {
+        axios.post('http://www.prile.io/api/accounts', {
                 description: user.siema,
                 siteId: user.password
             },

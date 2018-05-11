@@ -9,15 +9,15 @@ export default class Profile extends React.Component {
         passwordOld: '',
         passwordNew1: '',
         passwordNew2: '',
-        email: '',
-        monero: '',
+        email: sessionStorage.getItem('email'),
+        moneroChangeActive: false,
+        moneroOld: '',
+        moneroNew: '',
         sites: []
     }
 
     constructor(props) {
         super(props);
-        // This binding is necessary to make `this` work in the callback
-        //this.clearPasswordFields = this.clearPasswordFields.bind(this);
     }
 
     SitesList = () => {
@@ -97,11 +97,36 @@ export default class Profile extends React.Component {
     }
 
     handleChangePasswordNew1 = (e) => {
-        this.setState({ passwordNew1: e.target.value });
+        this.setStaet({ passwordNew1: e.target.value });
     }
 
     handleChangePasswordNew2 = (e) => {
         this.setState({ passwordNew2: e.target.value });
+    }
+
+    activateChangeMonero = (e) => {
+        console.log('activateChangeMonero');
+        this.setState(() => ({ moneroChangeActive: true }));
+        this.clearMoneroFields();
+    }
+
+    cancelChangeMonero = (e) => {
+        console.log('cancelChangeMonero');
+        this.setState(() => ({ moneroChangeActive: false }));
+        this.clearMoneroFields();
+    }
+
+    clearMoneroFields = () => {
+        this.setState((prevState) => ({ moneroOld: prevState.moneroOld }));
+        this.setState(() => ({ moneroNew: '' }));
+    }
+
+    handleChangeMoneroOld = (e) => {
+        this.setState({ moneroOld: e.target.value });
+    }
+
+    handleChangeMoneroNew = (e) => {
+        this.setState({ moneroNew: e.target.value });
     }
 
     copyToClipboard = (e) => {
@@ -138,10 +163,10 @@ export default class Profile extends React.Component {
 
     componentDidMount() {
 
-        const user = {
+        /*const user = {
             email: localStorage.getItem('email'),
             password: localStorage.getItem('password')
-        }
+        }*/
 
         axios.get('http://www.prile.io/api/accounts/current',
             {
@@ -149,10 +174,12 @@ export default class Profile extends React.Component {
             })
             .then( (response) => {
                 if (response.status == 200) {
-                    $('#profile-email').val(response.data.email);
-                    $('#monero-account').val(response.data.moneroAcc);
+                    let moneroAcc = response.data.moneroAcc;
                     const listOfSites = response.data.sites;
-                    this.setState( () => ({ sites: listOfSites }));
+                    this.setState( () => ({ 
+                        sites: listOfSites,
+                        moneroOld: moneroAcc
+                    }));
                 }
             })
             .catch( (error) => {
@@ -183,7 +210,7 @@ export default class Profile extends React.Component {
                             <div className="card-body">
                                 <label htmlFor="profile-email">Email address</label>
                                 <div className="input-group form-group">
-                                    <input type="text" id="profile-email" className="form-control" placeholder="name@example.com" aria-label="Email address" readOnly={true} />
+                                    <input type="text" id="profile-email" className="form-control" placeholder={this.state.email} aria-label="Email address" readOnly={true} />
                                     <span className="input-group-btn">
                                         {/*<button id="update-email" className="btn btn-primary" type="button">Save</button>*/}
                                     </span>
@@ -197,7 +224,7 @@ export default class Profile extends React.Component {
                                                 <div className="input-group">
                                                     <input type="password" className="form-control" placeholder="••••••••••" aria-label="Password" readOnly={true}  />
                                                     <span className="input-group-btn">
-                                                        <button id="change-password" className="btn btn-primary" type="button" onClick={ this.activateChangePassword.bind(this) }>Change</button>
+                                                        <button id="change-password" className="btn btn-primary" type="button" onClick={ this.activateChangePassword }>Change</button>
                                                     </span>
                                                 </div>
                                             </div>
@@ -210,7 +237,7 @@ export default class Profile extends React.Component {
                                                     className="form-control"
                                                     placeholder="Old password"
                                                     aria-label="Old password"
-                                                    onChange={ this.handleChangePasswordOld.bind(this) } />
+                                                    onChange={ this.handleChangePasswordOld } />
                                             </div>
                                             <div className="col" style={{flexGrow: 2.2}}>
                                                 <div className="input-group form-group">
@@ -219,33 +246,68 @@ export default class Profile extends React.Component {
                                                         className="form-control"
                                                         placeholder="New password"
                                                         aria-label="New password"
-                                                        onChange={ this.handleChangePasswordNew1.bind(this) } />
+                                                        onChange={ this.handleChangePasswordNew1 } />
                                                     <input
                                                         type="password"
                                                         className="form-control"
                                                         placeholder="Re-enter new password"
                                                         aria-label="Re-enter new password"
-                                                        onChange={ this.handleChangePasswordNew2.bind(this)} />
+                                                        onChange={ this.handleChangePasswordNew2 } />
                                                     <span className="input-group-btn">
-                                                        <button id="update-password" className="btn btn-primary" type="button" onClick={ this.changePassword.bind(this) }>Save</button>
+                                                        <button id="update-password" className="btn btn-primary" type="button" onClick={ this.changePassword }>Save</button>
                                                     </span>
                                                 </div>
                                             </div>
                                             <div>
                                                 <span className="input-group-btn">
-                                                    <button className="btn btn-dark btn-sep" type="button" onClick={ this.cancelChangePassword.bind(this) }>Cancel</button>
+                                                    <button className="btn btn-dark btn-sep" type="button" onClick={ this.cancelChangePassword }>Cancel</button>
                                                 </span>
                                             </div>
                                         </div>
                                     )}
                                 </div>
                                 <label htmlFor="monero-account">Monero account</label>
-                                <div className="input-group form-group">
-                                    <input type="text" id="monero-account" className="form-control" placeholder="Monero account number" aria-label="Monero account number"/>
-                                    <span className="input-group-btn">
-                                        <button id="update-monero" className="btn btn-primary" type="button">Save</button>
-                                    </span>
-                                </div>
+                                {!this.state.moneroChangeActive ? (
+                                        <div className="row gutters" >
+                                            <div className="col">
+                                                <div className="input-group">
+                                                    <input type="text" className="form-control" placeholder={this.state.moneroOld} aria-label="Password" readOnly={true}  />
+                                                    <span className="input-group-btn">
+                                                        <button id="change-monero" className="btn btn-primary" type="button" onClick={ this.activateChangeMonero }>Change</button>
+                                                    </span>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    ) : (
+                                        <div className="row gutters" >
+                                            <div className="col">
+                                                <input
+                                                    type="text"
+                                                    className="form-control"
+                                                    placeholder="Old monero"
+                                                    aria-label="Old monero"
+                                                    onChange={ this.handleChangeMoneroOld } />
+                                            </div>
+                                            <div className="col">
+                                                <div className="input-group form-group">
+                                                    <input
+                                                        type="text"
+                                                        className="form-control"
+                                                        placeholder="New monero"
+                                                        aria-label="New monero"
+                                                        onChange={ this.handleChangeMoneroNew } />
+                                                    <span className="input-group-btn">
+                                                        <button id="update-monero" className="btn btn-primary" type="button" onClick={ this.changeMonero }>Save</button>
+                                                    </span>
+                                                </div>
+                                            </div>
+                                            <div>
+                                                <span className="input-group-btn">
+                                                    <button className="btn btn-dark btn-sep" type="button" onClick={ this.cancelChangeMonero }>Cancel</button>
+                                                </span>
+                                            </div>
+                                        </div>
+                                    )}
                             </div>
                         </div>
                     </div>

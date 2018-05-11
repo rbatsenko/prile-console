@@ -30,7 +30,7 @@ export default class SideNav extends React.Component {
 
     componentDidMount() {
 
-        //localStorage.setItem('email', 'r.batsenkokarma@gmail.com');
+        sessionStorage.setItem('email', 'r.batsenkokarma@gmail.com');
         //localStorage.setItem('password', 'Prile');
 
         axios.post('http://www.prile.io/api/session', {

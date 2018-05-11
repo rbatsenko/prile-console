@@ -13,7 +13,9 @@ export default class Profile extends React.Component {
         moneroChangeActive: false,
         moneroOld: '',
         moneroNew: '',
-        sites: []
+        sites: [],
+        newSiteDesc: '',
+        newSiteDescError: ''
     }
 
     constructor(props) {
@@ -97,7 +99,7 @@ export default class Profile extends React.Component {
     }
 
     handleChangePasswordNew1 = (e) => {
-        this.setStaet({ passwordNew1: e.target.value });
+        this.setState({ passwordNew1: e.target.value });
     }
 
     handleChangePasswordNew2 = (e) => {
@@ -119,6 +121,11 @@ export default class Profile extends React.Component {
     clearMoneroFields = () => {
         this.setState((prevState) => ({ moneroOld: prevState.moneroOld }));
         this.setState(() => ({ moneroNew: '' }));
+    }
+
+    changeMonero = (e) => {
+        console.log('changeMonero ' + this.state.passwordOld + " " + this.state.moneroNew);
+        // TODO impl
     }
 
     handleChangeMoneroOld = (e) => {
@@ -161,12 +168,53 @@ export default class Profile extends React.Component {
             });
     }
 
-    componentDidMount() {
+    handleNewSiteDesc = (e) => {
+        this.setState({ newSiteDesc: e.target.value });
+        this.setState({ newSiteDescError: '' });
+    }
 
-        /*const user = {
-            email: localStorage.getItem('email'),
-            password: localStorage.getItem('password')
-        }*/
+    addWebsite = () => {
+        if ( this.state.newSiteDesc.length > 0 ) {
+            console.log('elo');
+        /*
+        axios.post('http://www.prile.io/api/accounts/current/sites', {
+                description: this.state.newSiteDesc
+            },
+            {
+                headers: { 'Content-Type': 'application/json' }
+            }
+            )
+            .then((response) => {
+                if (response.status == '200') {
+                    axios.get('http://www.prile.io/api/accounts/current',
+                        {
+                            headers: { 'Content-Type': 'application/json' }
+                        })
+                        .then( (response) => {
+                            if (response.status == 200) {
+                                const listOfSites = response.data.sites;
+                                this.setState( () => ({ 
+                                    sites: listOfSites
+                                }));
+                            }
+                        })
+                        .catch( (error) => {
+                            console.log(error);
+                        });
+                } else {
+                    //localStorage.setItem('error', 'Please try another credentials!');
+                    //window.location.href = 'http://prile.karma-dev.pro/login';
+                }
+            })
+            .catch((error) => {
+                //console.log(error);
+            });*/
+        } else {
+            this.setState({ newSiteDescError: 'Please fill out the Description field!' });
+        }
+    }
+
+    componentDidMount() {
 
         axios.get('http://www.prile.io/api/accounts/current',
             {
@@ -250,8 +298,8 @@ export default class Profile extends React.Component {
                                                     <input
                                                         type="password"
                                                         className="form-control"
-                                                        placeholder="Re-enter new password"
-                                                        aria-label="Re-enter new password"
+                                                        placeholder="Repeat new password"
+                                                        aria-label="Repeat new password"
                                                         onChange={ this.handleChangePasswordNew2 } />
                                                     <span className="input-group-btn">
                                                         <button id="update-password" className="btn btn-primary" type="button" onClick={ this.changePassword }>Save</button>
@@ -282,11 +330,11 @@ export default class Profile extends React.Component {
                                         <div className="row gutters" >
                                             <div className="col">
                                                 <input
-                                                    type="text"
+                                                    type="password"
                                                     className="form-control"
-                                                    placeholder="Old monero"
-                                                    aria-label="Old monero"
-                                                    onChange={ this.handleChangeMoneroOld } />
+                                                    placeholder="Password"
+                                                    aria-label="Password"
+                                                    onChange={ this.handleChangePasswordOld } />
                                             </div>
                                             <div className="col">
                                                 <div className="input-group form-group">
@@ -317,6 +365,31 @@ export default class Profile extends React.Component {
                         <div className="card">
                             <div className="card-header">Your websites</div>
                             <this.SitesList />
+                        </div>
+                    </div>
+                </div>
+                <div className="row gutters">
+                    <div className="col-xl-8 col-lg-10 col-md-12 col-sm-12">
+                        <div className="card">
+                            <div className="card-header">Add website</div>
+                            <div className="card-body">
+                                <div className="row gutters">
+                                    <div className="col">
+                                        <div className="input-group form-group">
+                                            <input
+                                                type="text"
+                                                className="form-control"
+                                                placeholder="Description"
+                                                aria-label="Description"
+                                                onChange={ this.handleNewSiteDesc } />
+                                            <span className="input-group-btn">
+                                                <button id="add-website" className="btn btn-primary" type="button" onClick={ this.addWebsite }>Add</button>
+                                            </span>
+                                        </div>
+                                        <p className="mb-0 text-secondary input-error">{this.state.newSiteDescError}</p>
+                                    </div>
+                                </div>
+                            </div>
                         </div>
                     </div>
                 </div>

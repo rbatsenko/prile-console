@@ -1,0 +1,136 @@
+/***************** CUSTOM **************************/
+.fade-enter {
+	opacity: 0.01;
+	left: 30px;
+}
+
+.fade-enter-active {
+	opacity: 1;
+	left: 0;
+  	transition: all 300ms ease-in-out;
+}
+  
+.fade-exit {
+	opacity: 1;
+	top: 0;
+}
+
+.fade-exit-active {
+	opacity: 0.01;
+	top: 30px;
+  	transition: all 300ms ease-in-out;
+}
+
+.mini-nav-btn,
+.onoffcanvas-toggler {
+	cursor: pointer;
+}
+
+.app-container {
+    min-height: 90vh;
+}
+
+.payment-request .monthly-avg {
+    padding: 2rem .3rem;
+}
+
+.payment-request .monthly-avg h6 {
+    margin: 15px 20px 10px 20px;
+}
+
+.right-actions .btn.btn-primary {
+    outline: none !important;
+    box-shadow: none !important;
+    border: none !important;
+}
+
+.card-single-website {
+    margin: 15px 0;
+}
+
+.card-single-website .input-group:first-of-type {
+	margin-bottom: 15px;
+}
+
+.monero-amount {
+	margin-bottom: 0;
+}
+
+.monthly-avg h6 {
+    margin: 15px 20px 20px 20px;
+}
+
+.monthly-avg .avg-block {
+    margin-bottom: 20px;
+}
+
+.avg-total {
+	margin-bottom: 0;
+}
+
+.overview .btn:focus {
+	box-shadow: none;
+	color: #007ae1;
+}
+
+.btn {
+	box-shadow: none !important;
+}
+
+.right-actions {
+	.btn {
+		&:focus {
+			color: white;
+		}
+	}
+}
+
+.btn-sep {
+	margin-left: 8px;
+	margin-right: 8px;
+}
+
+.form-control {
+	line-height: 1.5rem;
+}
+
+.general-table {
+	thead {
+		tr {
+			th:nth-of-type(2),
+			th:nth-of-type(3) {
+				text-align: right;
+			}
+		}
+	}
+	tbody {
+		tr {
+			td:first-of-type,
+			td:nth-of-type(2) {
+				text-align: right;
+			}
+		}
+	}
+}
+
+.withdrawals-history {
+	thead {
+		tr {
+			th:nth-of-type(2) {
+				text-align: right;
+			}
+		}
+	}
+	tbody {
+		tr {
+			td:nth-of-type(2) {
+				text-align: right;
+			}
+		}
+	}
+}
+
+.input-error {
+    font-size: 12px;
+    margin-top: -10px;
+}

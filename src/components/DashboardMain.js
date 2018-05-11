@@ -12,7 +12,9 @@ export default class DashboardMain extends React.Component {
         general: [],
         sitesStats: [],
         dataChoice: 'general',
-        activeGraph: 'month'
+        activeGraph: 'month',
+        moneroAmount: 0,
+        withdrawalAvailable: false
     }
 
     SitesButtons = () => {
@@ -312,6 +314,30 @@ export default class DashboardMain extends React.Component {
         }
     }
 
+    moneroWithdraw = () => {
+        if (this.state.withdrawalAvailable) {
+            /*
+            axios.post('http://www.prile.io/api/finance/withdrawals',
+            {
+                headers: { 'Content-Type': 'application/json' }
+            })
+            .then( (response) => {
+                if (response.status == 201) {
+                    this.setState(() => ({ 
+                        moneroAmount: 0,
+                        withdrawalAvailable: false
+                    }));
+                }
+            })
+            .catch( (error) => {
+                console.log(error);
+            });*/
+            console.log("Perfect! Your money are on the way to your bank account!");
+        } else {
+            console.log("Withdrawal is not available for your account. Please try again later.");
+        }
+    }
+
     componentDidMount() {
 
         this.lastWeek();
@@ -340,7 +366,7 @@ export default class DashboardMain extends React.Component {
                     let sites = response.data.sites;
 
                     general.tokenChart.week.reverse().unshift('data1');
-                    general.powerChart.week/*.reverse()*/.unshift('data2');
+                    general.powerChart.week.reverse().unshift('data2');
                     general.tokenChart.month.reverse().unshift('data1');
                     general.powerChart.month.reverse().unshift('data2');
                     general.tokenChart.year.reverse().unshift('data1');
@@ -375,8 +401,10 @@ export default class DashboardMain extends React.Component {
             })
             .then( (response) => {
                 if (response.status == 200) {
-                    $('.monero-amount').text(response.data.moneroAmount);
-                    $('.modal-body').text(response.data.moneroAmount);
+                    this.setState(() => ({ 
+                        moneroAmount: response.data.moneroAmount,
+                        withdrawalAvailable: response.data.withdrawalAvailable
+                    }));
                 }
             })
             .catch( (error) => {
@@ -404,7 +432,7 @@ export default class DashboardMain extends React.Component {
                                 {/* Row start */}
                                 <div className="row gutters">
                                     <div className="col-xl-3 col-lg-3 col-md-3 col-sm-12 d-flex align-items-center">
-                                        <h4 className="monero-amount"></h4>
+                                        <h4 className="monero-amount">{this.state.moneroAmount}</h4>
                                     </div>
                                     <div className="col-xl-9 col-lg-9 col-md-9 col-sm-12 right-actions">
                                         <button className="btn btn-primary float-right" title="Payment Request" data-toggle="modal" data-target="#exampleModal">
@@ -420,10 +448,10 @@ export default class DashboardMain extends React.Component {
 															<span aria-hidden="true">×</span>
 														</button>
 													</div>
-													<div className="modal-body"></div>
+													<div className="modal-body">{this.state.moneroAmount}</div>
 													<div className="modal-footer">
 														<button type="button" className="btn btn-secondary" data-dismiss="modal">Close</button>
-														<button type="button" className="btn btn-primary">Withdraw</button>
+														<button type="button" className="btn btn-primary" data-dismiss="modal" onClick={ this.moneroWithdraw }>Withdraw</button>
 													</div>
 												</div>
 											</div>

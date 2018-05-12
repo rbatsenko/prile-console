@@ -1,5 +1,6 @@
 import React from 'react';
 import $ from 'jquery';
+import axios from 'axios';
 import { NavLink } from 'react-router-dom';
 
 const style1 = {
@@ -13,6 +14,23 @@ const style2 = {
 const style3 = {
     width: '42%'
 };
+
+const logOut = (e) => {
+    e.preventDefault();
+    axios.delete('http://www.prile.io/api/session',
+        {
+            headers: { 'Content-Type': 'application/json' }
+        })
+        .then( (response) => {
+            if (response.status == 200) {
+                sessionStorage.setItem('isLoggedIn', false);
+                window.location.href = 'http://prile.karma-dev.pro/';
+            }
+        })
+        .catch( (error) => {
+            console.log(error);
+        });
+}
 
 const Header = () => (
     <div className="app-header">
@@ -33,35 +51,15 @@ const Header = () => (
                 </div>
                 <div className="col-xl-5 col-lg-5 col-md-5 col-sm-3 col-4">
                     <ul className="header-actions">
-                        <li className="dropdown">
-                            <a href="#" id="userSettings" className="user-settings" data-toggle="dropdown" aria-haspopup="true">
-                                <img className="avatar" src="images/user.png" alt="User Thumb" />
-                                <span className="user-name">{/*localStorage.getItem('email').substr(0, localStorage.getItem('email').indexOf('@'))*/}</span>
-                                <i className="icon-chevron-small-down"></i>
+                        <li>
+                            <a href="/logout" onClick={logOut}>
+                                <i className="icon-export"></i>
                             </a>
-                            <div className="dropdown-menu lg dropdown-menu-right" aria-labelledby="userSettings">
-                                <ul className="user-settings-list">
-                                    <li>
-                                        <NavLink to="/profile">
-                                            <div className="icon">
-                                                <i className="icon-account_circle"></i>
-                                            </div>
-                                            <p>Profile</p>
-                                        </NavLink>
-                                    </li>
-                                    <li>
-                                        <NavLink to="/history">
-                                            <div className="icon yellow">
-                                                <i className="icon-schedule"></i>
-                                            </div>
-                                            <p>History</p>
-                                        </NavLink>
-                                    </li>
-                                </ul>
-                                <div className="logout-btn">
-                                    <a href="/logout" className="btn btn-primary log-out">Logout</a>
-                                </div>
+                            {/*
+                            <div className="logout-btn">
+                                <a href="/logout" className="btn btn-primary log-out">Logout</a>
                             </div>
+                            */}
                         </li>
                     </ul>
                 </div>

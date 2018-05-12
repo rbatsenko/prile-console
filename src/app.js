@@ -18,6 +18,7 @@ import './fonts/icomoon/icomoon.css';
 import './styles/styles.scss';
 import './styles/c3.min.css';
 
+
 ReactDOM.render(
     <BrowserRouter history={browserHistory} basename={'/console'}>
         <App />

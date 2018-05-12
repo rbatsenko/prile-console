@@ -7,13 +7,20 @@ import Footer from '../components/Footer';
 import DashboardMain from '../components/DashboardMain';
 import Profile from '../components/Profile';
 import History from '../components/History';
-import PaymentRequest from '../components/PaymentRequest';
 import NotFoundPage from '../components/NotFoundPage';
 import { TransitionGroup, CSSTransition } from 'react-transition-group';
 
+const PrivateRoute = ({ component: Component,...rest }) => (
+    <Route {...rest} render={(props) => (
+      sessionStorage.getItem('isLoggedIn')
+        ? <Component {...props} />
+        : window.location.href = '/login'
+    )} />
+  )
+
 const App = ({ location }) => {
 
-    const currentKey = location.pathname.split('/')[1] || '/'
+    const currentKey = location.pathname.split('/')[1] || '/';
 
     return (
         <div className="app-wrap">
@@ -30,10 +37,9 @@ const App = ({ location }) => {
                             classNames='fade'
                         >
                             <Switch location={location}>
-                                <Route path="/" component={DashboardMain} exact />
-                                <Route path="/profile" component={Profile} exact />
-                                <Route path="/history" component={History} exact />
-                                <Route path="/payment-request" component={PaymentRequest} exact />
+                                <PrivateRoute path="/" component={DashboardMain} exact />
+                                <PrivateRoute path="/profile" component={Profile} exact />
+                                <PrivateRoute path="/history" component={History} exact />
                                 <Route component={NotFoundPage} />
                             </Switch>
                         </CSSTransition>
@@ -42,8 +48,7 @@ const App = ({ location }) => {
                 </div>
             <Footer />
         </div>
-    )
-
+    );
 }
 
 export default withRouter(App);

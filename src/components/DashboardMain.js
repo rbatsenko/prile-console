@@ -379,6 +379,7 @@ export default class DashboardMain extends React.Component {
                 }
             })
             .catch( (error) => {
+                window.location.href = '/login';
                 console.log(error);
             });
 
@@ -432,6 +433,7 @@ export default class DashboardMain extends React.Component {
                         moneroAmount: response.data.moneroAmount.toFixed(5),
                         withdrawalAvailable: response.data.withdrawalAvailable
                     }));
+                    $('.app-wrap').css('opacity', '1');
                 }
             })
             .catch( (error) => {

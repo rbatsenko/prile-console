@@ -10,56 +10,21 @@ import 'onoffcanvas';
 
 export default class SideNav extends React.Component {
 
-    constructor(props) {
-        super(props);
-    
-        this.state = {
-            isLoggedIn : false,
-            email : '',
-            password : '',
-            moneroAccount : '',
-            cash : 0,
-            sites : []
-        }
-    }
-
-    user = {
-        email: 'r.batsenkokarma@gmail.com',
-        password: 'Prile'
-    };
-
-    componentDidMount() {
-
-        sessionStorage.setItem('email', 'r.batsenkokarma@gmail.com');
-        //localStorage.setItem('password', 'Prile');
-
-        axios.post('http://www.prile.io/api/session', {
-                email: this.user.email,
-                password: this.user.password
-            },
+    logOut = (e) => {
+        e.preventDefault();
+        axios.delete('http://www.prile.io/api/session',
             {
                 headers: { 'Content-Type': 'application/json' }
-            }
-            )
-            .then((response) => {
+            })
+            .then( (response) => {
                 if (response.status == 200) {
-                    console.log('Success!');
-                } else {
-                    localStorage.setItem('error', 'Please try another credentials!');
-                    window.location.href = 'http://prile.karma-dev.pro/login';
+                    sessionStorage.setItem('isLoggedIn', false);
+                    window.location.href = 'http://prile.karma-dev.pro/';
                 }
             })
-            .catch((error) => {
-                //console.log(error);
+            .catch( (error) => {
+                console.log(error);
             });
-        
-        /*if ( user.email && user.password ) {
-            
-        } else {
-            localStorage.setItem('error', 'Please try another credentials!');
-            window.location.href = 'http://prile.karma-dev.pro/login';
-        }*/
-
     }
 
     render() {

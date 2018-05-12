@@ -11,10 +11,15 @@ export default class DashboardMain extends React.Component {
         sites: [],
         general: [],
         sitesStats: [],
+        gotTableData: false,
         dataChoice: 'general',
         activeGraph: 'month',
         moneroAmount: 0,
         withdrawalAvailable: false
+    }
+
+    numberWithSpaces = (x) => {
+        return x.toString().replace(/\B(?=(\d{3})+(?!\d))/g, " ");
     }
 
     SitesButtons = () => {
@@ -66,8 +71,8 @@ export default class DashboardMain extends React.Component {
                     </tr>
                     <tr>
                         <th scope="row">Prile Power</th>
-                        <td>{monthPower}</td>
-                        <td>{totalPower}</td>
+                        <td>{this.numberWithSpaces(monthPower)}</td>
+                        <td>{this.numberWithSpaces(totalPower)}</td>
                     </tr>
                     <tr>
                         <th scope="row">% AdBlock Entries</th>
@@ -170,6 +175,11 @@ export default class DashboardMain extends React.Component {
                         rotate: -30,
                         multiline: false
                     }
+                },
+                y: {
+                    tick: {
+                        format: (d) => { return this.numberWithSpaces(d); }
+                    }
                 }
             }
         });
@@ -202,7 +212,7 @@ export default class DashboardMain extends React.Component {
             bindto: '#graph',
             padding: {
                 top: 30,
-                left: 50,
+                left: 55,
                 right: 30,
                 bottom: 0
             },
@@ -236,6 +246,11 @@ export default class DashboardMain extends React.Component {
                     tick: {
                         format: '%d.%m.%Y'
                     }
+                },
+                y: {
+                    tick: {
+                        format: (d) => { return this.numberWithSpaces(d); }
+                    }
                 }
             }
         });
@@ -265,7 +280,7 @@ export default class DashboardMain extends React.Component {
             bindto: '#graph',
             padding: {
                 top: 30,
-                left: 50,
+                left: 55,
                 right: 30,
                 bottom: 0
             },
@@ -294,6 +309,11 @@ export default class DashboardMain extends React.Component {
                 x: {
                     type: 'category',
                     categories: this.lastYear()
+                },
+                y: {
+                    tick: {
+                        format: (d) => { return this.numberWithSpaces(d); }
+                    }
                 }
             }
         });
@@ -392,7 +412,8 @@ export default class DashboardMain extends React.Component {
 
                     this.setState( () => ({ 
                         general: general, 
-                        sitesStats: sites
+                        sitesStats: sites,
+                        gotTableData: true
                     }));
                     this.buildMonthChart(this.state.dataChoice);
                 }
@@ -477,7 +498,7 @@ export default class DashboardMain extends React.Component {
                                 {/* Row start */}
                                 <div className="row gutters overview">
                                     <div className="col-xl-8 col-lg-8 col-md-8 col-sm-12">
-                                        <this.GeneralTable/>
+                                        { this.state.gotTableData && <this.GeneralTable/> }
                                     </div>
                                     <this.SitesButtons/>
                                 </div>

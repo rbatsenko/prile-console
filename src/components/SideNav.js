@@ -2,7 +2,6 @@ import React from 'react';
 import { NavLink } from 'react-router-dom';
 import $ from 'jquery';
 import axios from 'axios';
-import { logIn, logOut, getCash, getSites } from '../utils/ApiFunctions';
 import 'tether';
 import 'bootstrap';
 import 'metismenu';

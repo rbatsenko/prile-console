@@ -1,5 +1,6 @@
 import React from 'react';
-import { BrowserRouter as Router, Route, Switch, Redirect, withRouter } from 'react-router-dom';
+import { BrowserRouter as Router, Route, Switch, Redirect, withRouter, Link } from 'react-router-dom';
+import pathToRegexp from 'path-to-regexp';
 import Header from '../components/Header';
 import SideNav from '../components/SideNav';
 import InnerHeader from '../components/InnerHeader';
@@ -7,6 +8,7 @@ import Footer from '../components/Footer';
 import DashboardMain from '../components/DashboardMain';
 import Profile from '../components/Profile';
 import History from '../components/History';
+import Confirmation from '../components/Confirmation';
 import NotFoundPage from '../components/NotFoundPage';
 import { TransitionGroup, CSSTransition } from 'react-transition-group';
 
@@ -37,9 +39,10 @@ const App = ({ location }) => {
                             classNames='fade'
                         >
                             <Switch location={location}>
-                                <PrivateRoute path="/" component={DashboardMain} exact />
-                                <PrivateRoute path="/profile" component={Profile} exact />
-                                <PrivateRoute path="/history" component={History} exact />
+                                <PrivateRoute exact path="/" component={DashboardMain} />
+                                <PrivateRoute exact path="/profile" component={Profile} />
+                                <PrivateRoute exact path="/history" component={History} />
+                                <Route path='/accounts' component={Confirmation} />
                                 <Route component={NotFoundPage} />
                             </Switch>
                         </CSSTransition>

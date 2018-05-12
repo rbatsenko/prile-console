@@ -1,6 +1,5 @@
 import React from 'react';
 import $ from 'jquery';
-import { getSites } from '../utils/ApiFunctions';
 import axios from 'axios';
 import c3 from 'c3';
 import dateFormat from 'dateformat';

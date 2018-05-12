@@ -28,7 +28,6 @@ export default class Profile extends React.Component {
         const sitesList = sites.map((site, index) =>
 
         <div id={"site-" + index} className="card-single-website" key={index}>
-            <label htmlFor={"site-desc-" + index} className={"site-desc-label-"+ index}>{site.description}</label>
             <div className="input-group">
                 <span className="input-group-addon" id={"basic-addon" + index}>Description</span>
                 <input type="text" id={"site-desc-"+ index} defaultValue={site.description} className="form-control" aria-label="Description" aria-describedby={"basic-addon" + index} />
@@ -263,13 +262,13 @@ export default class Profile extends React.Component {
                                         {/*<button id="update-email" className="btn btn-primary" type="button">Save</button>*/}
                                     </span>
                                 </div>
-                                <div className="form-group">
+                                <div className="form-group form-password-group">
                                     <label htmlFor="old-password">Password</label>
 
                                     {!this.state.passwordChangeActive ? (
                                         <div className="row gutters" >
                                             <div className="col">
-                                                <div className="input-group">
+                                                <div className="input-group password-group">
                                                     <input type="password" className="form-control" placeholder="••••••••••" aria-label="Password" readOnly={true}  />
                                                     <span className="input-group-btn">
                                                         <button id="change-password" className="btn btn-primary" type="button" onClick={ this.activateChangePassword }>Change</button>
@@ -318,7 +317,7 @@ export default class Profile extends React.Component {
                                 {!this.state.moneroChangeActive ? (
                                         <div className="row gutters" >
                                             <div className="col">
-                                                <div className="input-group">
+                                                <div className="input-group change-monero-group">
                                                     <input type="text" className="form-control" placeholder={this.state.moneroOld} aria-label="Password" readOnly={true}  />
                                                     <span className="input-group-btn">
                                                         <button id="change-monero" className="btn btn-primary" type="button" onClick={ this.activateChangeMonero }>Change</button>

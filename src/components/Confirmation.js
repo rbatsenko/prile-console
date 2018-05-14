@@ -31,6 +31,7 @@ const Confirmation = () => {
                     window.location.href = '/success';
                 } else {
                     console.log('Error!');
+                    window.location.href = '/error';
                 }
             })
             .catch((error) => {

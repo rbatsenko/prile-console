@@ -65,8 +65,8 @@ export default class DashboardMain extends React.Component {
                 <tbody>
                     <tr>
                         <th scope="row">Prile Tokens</th>
-                        <td>{monthTokens}</td>
-                        <td>{totalTokens}</td>
+                        <td>{monthTokens.toFixed(5)}</td>
+                        <td>{totalTokens.toFixed(5)}</td>
                     </tr>
                     <tr>
                         <th scope="row">Prile Power</th>
@@ -75,8 +75,8 @@ export default class DashboardMain extends React.Component {
                     </tr>
                     <tr>
                         <th scope="row">% AdBlock Entries</th>
-                        <td>{monthAd}</td>
-                        <td>{totalAd}</td>
+                        <td>{monthAd.toFixed(5)}</td>
+                        <td>{totalAd.toFixed(5)}</td>
                     </tr>
                 </tbody>
             </table>

@@ -185,3 +185,110 @@
 		}
 	}
 }
+
+.payment-request-btn {
+	border-radius: 40px;
+
+	span {
+		margin: 0 1.5rem;
+	}
+}
+
+.payment-request-icon {
+	width: 16px;
+    height: 20px;
+    color: white;
+    display: inline-block;
+    vertical-align: middle;
+}
+
+.modal-footer {
+	.btn {
+		border-radius: 40px;
+		font-size: 15px;
+		padding: .5rem 1.25rem;
+	}
+}
+
+.overview {
+	.btn-block {
+		border: none;
+		color: #444;
+		position: relative;
+
+		&:hover {
+			color: white;
+		}
+
+		&:after {
+			position: absolute;
+			content: "";
+			left: -1px;
+			top: 6px;
+			border-left: 11px solid transparent;
+			border-top: 12px solid transparent;
+			border-bottom: 12px solid transparent;
+			z-index: 1000;
+		}
+
+		&.active {
+			&:after {
+				border-left: 11px solid white;
+			}
+		}
+	}
+}
+
+.graph-buttons {
+	.btn {
+		padding: .6rem 1rem;
+    	text-transform: uppercase;
+		font-size: 12px;
+		
+		&:first-child {
+			border-top-left-radius: 20px;
+    		border-bottom-left-radius: 20px;
+		}
+
+		&:last-child {
+			border-top-right-radius: 20px;
+    		border-bottom-right-radius: 20px;
+		}
+	}
+}
+
+.input-group {
+	input {
+		border-top-left-radius: 20px;
+		border-bottom-left-radius: 20px;
+	}
+		
+	.input-group-btn {
+		.btn {
+			border-top-right-radius: 20px;
+			border-bottom-right-radius: 20px;
+			font-size: 15px;
+			padding: .45rem 1rem .45rem .75rem;
+		}
+	}
+}
+
+.input-group-btn {
+	.btn-sep {
+		padding: .45rem .75rem .45rem .75rem;
+		font-size: 15px;
+		border-radius: 40px;
+	}
+}
+
+.single-input {
+	border-radius: 40px;
+}
+
+.input-group-addon {
+    padding: 0.6rem .75rem .6rem 1rem;
+    width: 100px;
+    border-top-left-radius: 20px;
+    border-bottom-left-radius: 20px;
+    font-size: 14px;
+}

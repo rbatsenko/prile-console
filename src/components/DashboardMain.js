@@ -3,6 +3,8 @@ import $ from 'jquery';
 import axios from 'axios';
 import c3 from 'c3';
 import dateFormat from 'dateformat';
+import { Icon } from 'react-icons-kit';
+import { download } from 'react-icons-kit/icomoon/download';
 
 export default class DashboardMain extends React.Component {
 
@@ -131,11 +133,12 @@ export default class DashboardMain extends React.Component {
         }
 
         //X axis shown points fix
+        
         c3.chart.internal.fn.categoryName = function (i) {
             var config = this.config, categoryIndex = Math.ceil(i);
             return i < config.axis_x_categories.length ? config.axis_x_categories[categoryIndex] : i;
         };
-
+        
         let chart2 = c3.generate({
             bindto: '#graph',
             padding: {
@@ -206,7 +209,7 @@ export default class DashboardMain extends React.Component {
             monthTokenArr = this.state.sitesStats[dataChoice].tokenChart.month;
             monthPowerArr = this.state.sitesStats[dataChoice].powerChart.month;
         }
-
+        
         let chart2 = c3.generate({
             bindto: '#graph',
             padding: {
@@ -463,8 +466,11 @@ export default class DashboardMain extends React.Component {
                                         <h4 className="monero-amount">{this.state.moneroAmount}</h4>
                                     </div>
                                     <div className="col-xl-9 col-lg-9 col-md-9 col-sm-12 right-actions">
-                                        <button className="btn btn-primary float-right" title="Payment Request" data-toggle="modal" data-target="#exampleModal">
-                                            <span>Payment Request</span><i className="icon-download4"></i>
+                                        <button className="btn btn-primary payment-request-btn float-right" title="Payment Request" data-toggle="modal" data-target="#exampleModal">
+                                            <div className="payment-request-icon">
+                                                <Icon size={'100%'} icon={ download }/>
+                                            </div>
+                                            <span>Payment Request</span>
                                         </button>
 										
 										<div className="modal fade" id="exampleModal" tabIndex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">

@@ -1,5 +1,5 @@
 import React from 'react';
-import { BrowserRouter as Router, Route, Switch, Redirect, withRouter, Link } from 'react-router-dom';
+import { Route, Switch, withRouter } from 'react-router-dom';
 import pathToRegexp from 'path-to-regexp';
 import Header from '../components/Header';
 import SideNav from '../components/SideNav';

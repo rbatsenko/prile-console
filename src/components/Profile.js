@@ -256,10 +256,10 @@ export default class Profile extends React.Component {
                             <div className="card-header">Profile</div>
                             <div className="card-body">
                                 <label htmlFor="profile-email">Email address</label>
-                                <div className="input-group form-group">
+                                <div className="input-group form-group email-group">
                                     <input type="text" id="profile-email" className="form-control" placeholder={this.state.email} aria-label="Email address" readOnly={true} />
                                     <span className="input-group-btn">
-                                        {/*<button id="update-email" className="btn btn-primary" type="button">Save</button>*/}
+                                        <button id="change-email" className="btn btn-primary" type="button">Change</button>
                                     </span>
                                 </div>
                                 <div className="form-group form-password-group">
@@ -281,7 +281,7 @@ export default class Profile extends React.Component {
                                             <div className="col">
                                                 <input
                                                     type="password"
-                                                    className="form-control"
+                                                    className="form-control single-input"
                                                     placeholder="Old password"
                                                     aria-label="Old password"
                                                     onChange={ this.handleChangePasswordOld } />
@@ -330,7 +330,7 @@ export default class Profile extends React.Component {
                                             <div className="col">
                                                 <input
                                                     type="password"
-                                                    className="form-control"
+                                                    className="form-control single-input"
                                                     placeholder="Password"
                                                     aria-label="Password"
                                                     onChange={ this.handleChangePasswordOld } />

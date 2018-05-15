@@ -2,6 +2,11 @@ import React from 'react';
 import $ from 'jquery';
 import axios from 'axios';
 import { NavLink } from 'react-router-dom';
+import { Icon } from 'react-icons-kit';
+import { ic_exit_to_app } from 'react-icons-kit/md/ic_exit_to_app';
+import { thinLeft } from 'react-icons-kit/entypo/thinLeft';
+import { thinRight } from 'react-icons-kit/entypo/thinRight';
+import { ic_menu } from 'react-icons-kit/md/ic_menu'
 
 const style1 = {
     width: '87%'
@@ -38,10 +43,14 @@ const Header = () => (
             <div className="row gutters">
                 <div className="col-xl-5 col-lg-5 col-md-5 col-sm-3 col-4">
                     <a className="mini-nav-btn" id="app-side-mini-toggler">
-                        <i className="icon-menu5"></i>
+                        <div style={{width: 24, height: 26, color: '#007ae1'}}>
+                            <Icon size={'100%'} icon={ ic_menu }/>
+                        </div>
                     </a>
                     <a data-toggle="onoffcanvas" className="onoffcanvas-toggler" aria-expanded="false">
-                        <i className="icon-chevron-thin-right"></i>
+                        <div style={{width: 24, height: 24}}>
+                            <Icon size={'100%'} icon={ thinRight }/>
+                        </div>
                     </a>
                 </div>
                 <div className="col-xl-2 col-lg-2 col-md-2 col-sm-6 col-4">
@@ -53,7 +62,9 @@ const Header = () => (
                     <ul className="header-actions">
                         <li>
                             <a href="/logout" onClick={logOut}>
-                                <i className="icon-export"></i>
+                                <div style={{width: 24, height: 24}}>
+                                    <Icon size={'100%'} icon={ ic_exit_to_app }/>
+                                </div>
                             </a>
                             {/*
                             <div className="logout-btn">

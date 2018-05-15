@@ -2,10 +2,14 @@ import React from 'react';
 import { NavLink } from 'react-router-dom';
 import $ from 'jquery';
 import axios from 'axios';
-import 'tether';
+//import 'tether';
 import 'bootstrap';
 import 'metismenu';
 import 'onoffcanvas';
+import { Icon } from 'react-icons-kit';
+import { ic_laptop } from 'react-icons-kit/md/ic_laptop';
+import { user } from 'react-icons-kit/icomoon/user';
+import { ic_show_chart } from 'react-icons-kit/md/ic_show_chart';
 
 export default class SideNav extends React.Component {
 
@@ -35,13 +39,6 @@ export default class SideNav extends React.Component {
                     <div className="user-profile">
                         <img src="images/user.png" className="profile-thumb" alt="User Thumb" />
                         <h6 className="profile-name">{/*localStorage.getItem('email').substr(0, localStorage.getItem('email').indexOf('@'))*/}</h6>
-                        <ul className="profile-actions">
-                            <li>
-                                <a href="/logout" onClick={this.logOut}>
-                                    <i className="icon-export"></i>
-                                </a>
-                            </li>
-                        </ul>
                     </div>
                     {/* END .user-profile */}
                     {/* BEGIN .side-nav */}
@@ -51,7 +48,9 @@ export default class SideNav extends React.Component {
                             <li>
                                 <NavLink to="/" exact={true}>
                                     <span className="has-icon">
-                                        <i className="icon-laptop_windows"></i>
+                                        <div style={{width: 21, height: 21}}>
+                                            <Icon size={'100%'} icon={ ic_laptop }/>
+                                        </div>
                                     </span>
                                     <span className="nav-title">Dashboard</span>
                                 </NavLink>
@@ -59,7 +58,9 @@ export default class SideNav extends React.Component {
                             <li>
                                 <NavLink to="/profile" exact={true}>
                                     <span className="has-icon">
-                                        <i className="icon-user"></i>
+                                        <div style={{width: 21, height: 21}}>
+                                            <Icon size={'100%'} icon={ user }/>
+                                        </div>
                                     </span>
                                     <span className="nav-title">Profile</span>
                                 </NavLink>
@@ -67,18 +68,12 @@ export default class SideNav extends React.Component {
                             <li>
                                 <NavLink to="/history" exact={true}>
                                     <span className="has-icon">
-                                        <i className="icon-chart-area-outline"></i>
+                                        <div style={{width: 21, height: 21}}>
+                                            <Icon size={'100%'} icon={ ic_show_chart }/>
+                                        </div>
                                     </span>
                                     <span className="nav-title">Withdrawals</span>
                                 </NavLink>
-                            </li>
-                            <li>
-                                <a href="/logout" onClick={this.logOut} className="log-out" aria-expanded="false">
-                                    <span className="has-icon">
-                                        <i className="icon-lock_outline"></i>
-                                    </span>
-                                    <span className="nav-title">Log Out</span>
-                                </a>
                             </li>
                         </ul>
                         {/* END: side-nav-content */}

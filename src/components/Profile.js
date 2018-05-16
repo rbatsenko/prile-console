@@ -14,6 +14,7 @@ export default class Profile extends React.Component {
         moneroOld: '',
         moneroNew: '',
         sites: [],
+        userHasSites: false,
         newSiteDesc: '',
         newSiteDescError: ''
     }
@@ -89,8 +90,32 @@ export default class Profile extends React.Component {
     }
 
     changePassword = (e) => {
-        console.log('changePassword ' + this.state.passwordOld + " " + this.state.passwordNew1 + " " + this.state.passwordNew2);
-        // TODO impl
+        let passOld = this.state.passwordOld;
+        let passNew = this.state.passwordNew1;
+
+        if (passNew === this.state.passwordNew2) {
+            axios.put('http://www.prile.io/api/accounts/current/password', {
+                newPassword: passNew,
+                oldPassword: passOld
+            },
+            {
+                headers: { 'Content-Type': 'application/json' }
+            }
+            )
+            .then((response) => {
+                if (response.status == '200') {
+                    console.log('changePassword ' + passOld + " " + passNew);
+                } else {
+                    //localStorage.setItem('error', 'Please try another credentials!');
+                    //window.location.href = 'http://prile.karma-dev.pro/login';
+                }
+            })
+            .catch((error) => {
+                console.log(error);
+            });
+        } else {
+            console.log('Password confirmation ERROR');
+        }
     }
 
     handleChangePasswordOld = (e) => {
@@ -103,6 +128,10 @@ export default class Profile extends React.Component {
 
     handleChangePasswordNew2 = (e) => {
         this.setState({ passwordNew2: e.target.value });
+    }
+
+    handlePasswordRepeat = (e) => {
+        this.state.passwordNew1 != e.target.value ? console.log('NOmatch') : console.log('match');
     }
 
     activateChangeMonero = (e) => {
@@ -225,8 +254,13 @@ export default class Profile extends React.Component {
                     const listOfSites = response.data.sites;
                     this.setState( () => ({ 
                         sites: listOfSites,
-                        moneroOld: moneroAcc
+                        moneroOld: moneroAcc 
                     }));
+                    if (listOfSites.length > 0) {
+                        this.setState( () => ({ userHasSites: true }));
+                    };
+
+                    $('.app-wrap').css('opacity', '1');
                 }
             })
             .catch( (error) => {
@@ -258,9 +292,9 @@ export default class Profile extends React.Component {
                                 <label htmlFor="profile-email">Email address</label>
                                 <div className="input-group form-group email-group">
                                     <input type="text" id="profile-email" className="form-control" placeholder={this.state.email} aria-label="Email address" readOnly={true} />
-                                    <span className="input-group-btn">
+                                    {/*<span className="input-group-btn">
                                         <button id="change-email" className="btn btn-primary" type="button">Change</button>
-                                    </span>
+                                    </span>*/}
                                 </div>
                                 <div className="form-group form-password-group">
                                     <label htmlFor="old-password">Password</label>
@@ -299,7 +333,10 @@ export default class Profile extends React.Component {
                                                         className="form-control"
                                                         placeholder="Repeat new password"
                                                         aria-label="Repeat new password"
-                                                        onChange={ this.handleChangePasswordNew2 } />
+                                                        onChange={ (e) => {
+                                                            this.handleChangePasswordNew2(e);
+                                                            this.handlePasswordRepeat(e);
+                                                        } } />
                                                     <span className="input-group-btn">
                                                         <button id="update-password" className="btn btn-primary" type="button" onClick={ this.changePassword }>Save</button>
                                                     </span>
@@ -359,6 +396,7 @@ export default class Profile extends React.Component {
                         </div>
                     </div>
                 </div>
+                { this.state.userHasSites && (
                 <div className="row gutters">
                     <div className="col-xl-8 col-lg-10 col-md-12 col-sm-12">
                         <div className="card">
@@ -367,9 +405,10 @@ export default class Profile extends React.Component {
                         </div>
                     </div>
                 </div>
+                )}
                 <div className="row gutters">
                     <div className="col-xl-8 col-lg-10 col-md-12 col-sm-12">
-                        <div className="card">
+                        <div className="card add-website-card">
                             <div className="card-header">Add website</div>
                             <div className="card-body">
                                 <div className="row gutters">

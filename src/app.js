@@ -6,7 +6,6 @@ import 'tether';
 import 'popper.js';
 import 'bootstrap';
 import 'slimscroll';
-//import c3 from 'c3';
 import 'metismenu';
 import 'onoffcanvas';
 import 'normalize.css/normalize.css';
@@ -14,6 +13,7 @@ import 'bootstrap/dist/css/bootstrap.min.css';
 import './styles/styles.scss';
 import './styles/c3.min.css';
 
+sessionStorage.setItem('isLoggedIn', true);
 
 ReactDOM.render(
     <BrowserRouter history={browserHistory} basename={'/console'}>

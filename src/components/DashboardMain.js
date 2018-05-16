@@ -30,9 +30,11 @@ export default class DashboardMain extends React.Component {
             <button type="button" className="btn btn-outline-primary btn-block" key={index} onClick={ (e) => { this.activeBtn(e); this.dataSwitch(e); } } data-site={site.siteId}>{site.description}</button>
         );
         return (
-            <div className="col-xl-4 col-lg-4 col-md-4 col-sm-12">
-                <button type="button" className="btn btn-outline-primary btn-block active" onClick={ (e) => { this.activeBtn(e); this.dataSwitch(e); } } data-site={'general'}>General</button>
-                {sitesButtons}
+            <div className="col-xl-4 col-lg-4 col-md-4 col-sm-12 d-flex align-items-center">
+                <div className="sites-buttons">
+                    <button type="button" className="btn btn-outline-primary btn-block active" onClick={ (e) => { this.activeBtn(e); this.dataSwitch(e); } } data-site={'general'}>General</button>
+                    {sitesButtons}
+                </div>
             </div>
         );
     }
@@ -56,10 +58,10 @@ export default class DashboardMain extends React.Component {
         }
         
         return (
-            <table id="generalTable" className="table general-table table-bordered m-0">
+            <table id="generalTable" className="table general-table table-striped m-0">
                 <thead>
                     <tr>
-                        <th>#</th>
+                        <th></th>
                         <th>Last Month</th>
                         <th>Total</th>
                     </tr>
@@ -143,8 +145,8 @@ export default class DashboardMain extends React.Component {
             bindto: '#graph',
             padding: {
                 top: 30,
-                left: 50,
-                right: 30,
+                left: 40,
+                right: 55,
                 bottom: 0
             },
             data: {
@@ -152,6 +154,10 @@ export default class DashboardMain extends React.Component {
                     weekTokenArr,
                     weekPowerArr
                 ],
+                axes: {
+                    data1: 'y',
+                    data2: 'y2'
+                },
                 types: {
                     data1: 'spline',
                     data2: 'spline'
@@ -179,6 +185,12 @@ export default class DashboardMain extends React.Component {
                     }
                 },
                 y: {
+                    tick: {
+                        format: (d) => { return d.toFixed(2); }
+                    }
+                },
+                y2: {
+                    show: true,
                     tick: {
                         format: (d) => { return this.numberWithSpaces(d); }
                     }
@@ -214,8 +226,8 @@ export default class DashboardMain extends React.Component {
             bindto: '#graph',
             padding: {
                 top: 30,
-                left: 55,
-                right: 30,
+                left: 40,
+                right: 55,
                 bottom: 0
             },
             data: {
@@ -226,6 +238,10 @@ export default class DashboardMain extends React.Component {
                     monthTokenArr,
                     monthPowerArr
                 ],
+                axes: {
+                    data1: 'y',
+                    data2: 'y2'
+                },
                 types: {
                     data1: 'spline',
                     data2: 'spline'
@@ -250,6 +266,12 @@ export default class DashboardMain extends React.Component {
                     }
                 },
                 y: {
+                    tick: {
+                        format: (d) => { return d.toFixed(2); }
+                    }
+                },
+                y2: {
+                    show: true,
                     tick: {
                         format: (d) => { return this.numberWithSpaces(d); }
                     }
@@ -282,8 +304,8 @@ export default class DashboardMain extends React.Component {
             bindto: '#graph',
             padding: {
                 top: 30,
-                left: 55,
-                right: 30,
+                left: 40,
+                right: 55,
                 bottom: 0
             },
             data: {
@@ -291,6 +313,10 @@ export default class DashboardMain extends React.Component {
                     yearTokenArr,
                     yearPowerArr
                 ],
+                axes: {
+                    data1: 'y',
+                    data2: 'y2'
+                },
                 types: {
                     data1: 'spline',
                     data2: 'spline'
@@ -313,6 +339,12 @@ export default class DashboardMain extends React.Component {
                     categories: this.lastYear()
                 },
                 y: {
+                    tick: {
+                        format: (d) => { return d.toFixed(2); }
+                    }
+                },
+                y2: {
+                    show: true,
                     tick: {
                         format: (d) => { return this.numberWithSpaces(d); }
                     }
@@ -499,12 +531,12 @@ export default class DashboardMain extends React.Component {
                 </div>
                 <div className="row gutters">
                     <div className="col-xl-12 col-lg-12 col-md-12 col-sm-12">
-                        <div className="card">
+                        <div className="card overview-table-card">
                             <div className="card-header">Overview</div>
                             <div className="card-body">
                                 {/* Row start */}
-                                <div className="row gutters overview">
-                                    <div className="col-xl-8 col-lg-8 col-md-8 col-sm-12">
+                                <div className="row no-gutters overview">
+                                    <div className="col-xl-8 col-lg-8 col-md-8 col-sm-12 d-flex align-items-center">
                                         { this.state.gotTableData && <this.GeneralTable/> }
                                     </div>
                                     <this.SitesButtons/>

@@ -50,7 +50,11 @@
 }
 
 .card-single-website {
-    margin: 1rem 15px 3rem;
+	margin: 1rem 0 3rem;
+	
+	&:last-of-type {
+		margin-bottom: 1rem;
+	}
 }
 
 .card-single-website .input-group:first-of-type {
@@ -135,9 +139,18 @@
 	}
 }
 
+.add-website-card {
+	.input-group {
+		margin-bottom: .5rem;
+	}
+}
+
 .input-error {
-    font-size: 12px;
-    margin-top: -10px;
+    font-family: Open Sans, sans-serif;
+    font-size: 11px;
+    position: absolute;
+    bottom: -10px;
+    left: 21px;
 }
 
 .password-group,
@@ -194,6 +207,10 @@
 	}
 }
 
+.right-actions button.btn.payment-request-btn {
+    box-shadow: 0px 6px 15px rgba(0, 0, 0, 0.1) !important;
+}
+
 .payment-request-icon {
 	width: 16px;
     height: 20px;
@@ -240,6 +257,10 @@
 }
 
 .graph-buttons {
+	box-shadow: 0px 6px 15px rgba(0, 0, 0, 0.1);
+    background: transparent;
+	border-radius: 20px;
+	
 	.btn {
 		padding: .6rem 1rem;
     	text-transform: uppercase;
@@ -269,6 +290,7 @@
 			border-bottom-right-radius: 20px;
 			font-size: 15px;
 			padding: .45rem 1rem .45rem .75rem;
+			box-shadow: 0px 6px 15px rgba(0, 0, 0, 0.1) !important;
 		}
 	}
 }
@@ -278,10 +300,12 @@
 		padding: .45rem .75rem .45rem .75rem;
 		font-size: 15px;
 		border-radius: 40px;
+		box-shadow: 0px 6px 15px rgba(0, 0, 0, 0.1) !important;
 	}
 }
 
-.single-input {
+.single-input,
+.email-group input {
 	border-radius: 40px;
 }
 
@@ -291,4 +315,22 @@
     border-top-left-radius: 20px;
     border-bottom-left-radius: 20px;
     font-size: 14px;
+}
+
+.table.general-table th,
+.table.general-table td {
+    border: none;
+}
+
+.overview-table-card {
+	.card-body {
+		padding: 0;
+		padding-left: .5rem;
+	}
+}
+
+.sites-buttons {
+	flex: 1;
+	padding: 1.65rem 0;
+    border-left: 1px solid #ebedf5;
 }

@@ -25,6 +25,8 @@ export default class History extends React.Component {
                         var row = "<tr>" + "<td>" + dateFormat(date, "dd.mm.yyyy") + "</td>" + "<td>" + entry.moneroAmount.toFixed(5) + "</td>" + "</tr>"
                         $(row).appendTo("#withdrawals-history tbody");
                     });
+
+                    $('.app-wrap').css('opacity', '1');
                 }
             })
             .catch(function (error) {

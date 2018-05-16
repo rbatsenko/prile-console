@@ -29,7 +29,7 @@ const logOut = (e) => {
         .then( (response) => {
             if (response.status == 200) {
                 sessionStorage.setItem('isLoggedIn', false);
-                window.location.href = 'http://prile.karma-dev.pro/';
+                window.location.href = '/';
             }
         })
         .catch( (error) => {

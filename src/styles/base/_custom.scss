@@ -49,16 +49,38 @@
     border: none !important;
 }
 
-.card-single-website {
-	margin: 1rem 0 3rem;
-	
-	&:last-of-type {
-		margin-bottom: 1rem;
+.card {
+	.card-body {
+		&.card-websites {
+			padding: 0;
+		}
 	}
 }
 
-.card-single-website .input-group:first-of-type {
-	margin-bottom: 15px;
+.card-single-website {
+	margin: 2rem 0 1rem;
+    padding: 0 1rem 30px;
+    border-bottom: 1px solid #ebedf5;
+	
+	&:last-of-type {
+		margin-bottom: 0;
+		border-bottom: none;
+	}
+}
+
+.card-single-website {
+	.input-group:first-of-type {
+		padding-bottom: 7px;
+		margin-bottom: 20px;
+		
+		.input-error {
+			opacity: 0;
+
+			&.visible {
+				opacity: 1;
+			}
+		}
+	}
 }
 
 .monero-amount {

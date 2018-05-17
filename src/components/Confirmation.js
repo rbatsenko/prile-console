@@ -6,13 +6,13 @@ const Confirmation = () => {
     $('.app-wrap').css('opacity', '0');
     $('body').css('background', 'white');
     $('#app').hide();
-    $('.prile-loader').addClass('active');
+    /*$('.prile-loader').addClass('active');
     setTimeout( () => {
         $('.prile-loader').addClass('visible');
         setTimeout( () => {
             $('.prile-loader').addClass('animation');
         }, 500);
-    }, 1000);
+    }, 1000);*/
 
     let path = window.location.pathname.split( '/' );
     console.log(path);

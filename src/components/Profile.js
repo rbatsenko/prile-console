@@ -11,11 +11,14 @@ export default class Profile extends React.Component {
         passwordNew2: '',
         email: sessionStorage.getItem('email'),
         moneroChangeActive: false,
+        moneroAcc: '',
         moneroOld: '',
         moneroNew: '',
         sites: [],
         userHasSites: false,
         newSiteDesc: '',
+        siteDescChangeId: '',
+        changeSiteDescError: '',
         newSiteDescError: ''
     }
 
@@ -24,21 +27,28 @@ export default class Profile extends React.Component {
     }
 
     SitesList = () => {
-
         const sites = this.state.sites;
-        const sitesList = sites.map((site, index) =>
+        const sitesList = sites.map((site, index, e) =>
 
         <div id={"site-" + index} className="card-single-website" key={index}>
             <div className="input-group">
                 <span className="input-group-addon" id={"basic-addon" + index}>Description</span>
-                <input type="text" id={"site-desc-"+ index} defaultValue={site.description} className="form-control" aria-label="Description" aria-describedby={"basic-addon" + index} />
+                <input type="text" id={"site-desc-"+ index} data-site-id={site.siteId} defaultValue={site.description} onChange={ (e) => {this.handleChangeSiteDesc(e)}} className="form-control" aria-label="Description" aria-describedby={"basic-addon" + index} />
                 <span className="input-group-btn">
-                    <button id={"update-site-desc-" + index} className="btn btn-primary" type="button">Save</button>
+                    <button 
+                        id={"update-site-desc-" + index} 
+                        className="btn btn-primary"
+                        onClick={this.updateSiteDesc}
+                        type="button"
+                        >
+                        Save
+                    </button>
                 </span>
+                <p className="mb-0 text-secondary input-error">{this.state.changeSiteDescError}</p>
             </div>
             <div className="input-group">
                 <span className="input-group-addon">Website ID</span>
-                <input type="text" id={"site-id-" + index} defaultValue={site.siteId} className="form-control" readOnly={true} />
+                <input type="text" id={"site-id-" + index} defaultValue={site.siteId} className="form-control site-id-input" readOnly={true} />
                 <span className="input-group-btn">
                     <button 
                         id={"copy-site-id-" + index}
@@ -50,8 +60,8 @@ export default class Profile extends React.Component {
                         data-placement="bottom"
                         data-original-title="Please click the button to copy your Site ID to clipboard"
                         >
-                            Copy to clipboard
-                        </button>
+                        Copy to clipboard
+                    </button>
                 </span>
             </div>
         </div>
@@ -104,7 +114,7 @@ export default class Profile extends React.Component {
             )
             .then((response) => {
                 if (response.status == '200') {
-                    console.log('changePassword ' + passOld + " " + passNew);
+                    alert('Success!');
                 } else {
                     //localStorage.setItem('error', 'Please try another credentials!');
                     //window.location.href = 'http://prile.karma-dev.pro/login';
@@ -147,17 +157,41 @@ export default class Profile extends React.Component {
     }
 
     clearMoneroFields = () => {
-        this.setState((prevState) => ({ moneroOld: prevState.moneroOld }));
+        this.setState(() => ({ moneroOld: '' }));
         this.setState(() => ({ moneroNew: '' }));
     }
 
     changeMonero = (e) => {
-        console.log('changeMonero ' + this.state.passwordOld + " " + this.state.moneroNew);
-        // TODO impl
-    }
+        let moneroNew = this.state.moneroNew;
+        let password = this.state.passwordOld;
+        let moneroFormat = /^4([0-9]|[A-B])([0-9A-Za-z]){93}$/;
+        let testMonero = moneroFormat.test(moneroNew);
 
-    handleChangeMoneroOld = (e) => {
-        this.setState({ moneroOld: e.target.value });
+        if (testMonero) {
+            axios.post('/accounts/current/moneroAccToBeConfirmed', {
+                moneroAcc: moneroNew,
+                password: password
+            },
+            {
+                headers: { 'Content-Type': 'application/json' }
+            }
+            )
+            .then((response) => {
+                if (response.status == '200') {
+                    if (response.data.status == 'INCORRECT_PASSWORD') {
+                        alert('Wrong password!');
+                    } else {
+                        alert('Success! Please find an email link for your new monero number confirmation in your inbox!');
+                    }
+                }
+            })
+            .catch((error) => {
+                console.log(error);
+            });
+        } else {
+            alert('Wrong format for monero account, please try again!');
+        }
+        
     }
 
     handleChangeMoneroNew = (e) => {
@@ -171,12 +205,27 @@ export default class Profile extends React.Component {
         alert('Your Site ID is succesfully copied to clipboard!');
     }
 
-    updateSiteDesc = (e) => {
-        //$(e.target)
+    handleChangeSiteDesc = (e) => {
+        this.setState({ siteDescChangeNewDesc: e.target.value });
+        this.setState({ siteDescChangeId: e.target.getAttribute('data-site-id') });
+        if (!e.target.value.length) {
+            this.setState({ changeSiteDescError: 'Please fill out the Description field!' });
+            $(e.target).siblings('.input-error').addClass('visible');
+        } else {
+            this.setState({ changeSiteDescError: ''});
+            $(e.target).siblings('.input-error').removeClass('visible');
+        }
+    }
 
-        axios.post('/api/accounts', {
-                description: user.siema,
-                siteId: user.password
+    updateSiteDesc = () => {
+        
+        let siteDesc = this.state.siteDescChangeNewDesc;
+        let siteId = this.state.siteDescChangeId;
+
+        if (siteDesc.length > 0) {
+            axios.put('/accounts/current/sites', {
+                description: siteDesc,
+                siteId: siteId
             },
             {
                 headers: { 'Content-Type': 'application/json' }
@@ -185,7 +234,7 @@ export default class Profile extends React.Component {
             .then((response) => {
                 //console.log(response);
                 if (response.status == '200') {
-                    
+                    alert('Success!');
                 } else {
                     //localStorage.setItem('error', 'Please try another credentials!');
                     //window.location.href = 'http://prile.karma-dev.pro/login';
@@ -194,6 +243,9 @@ export default class Profile extends React.Component {
             .catch((error) => {
                 //console.log(error);
             });
+        } else {
+            alert('Please fill out the Desctiption field!');
+        }
     }
 
     handleNewSiteDesc = (e) => {
@@ -214,7 +266,7 @@ export default class Profile extends React.Component {
             )
             .then((response) => {
                 if (response.status == '200') {
-                    axios.get('/api/accounts/current',
+                    axios.get('/accounts/current',
                         {
                             headers: { 'Content-Type': 'application/json' }
                         })
@@ -244,7 +296,7 @@ export default class Profile extends React.Component {
 
     componentDidMount() {
 
-        axios.get('/api/accounts/current',
+        axios.get('/accounts/current',
             {
                 headers: { 'Content-Type': 'application/json' }
             })
@@ -254,7 +306,7 @@ export default class Profile extends React.Component {
                     const listOfSites = response.data.sites;
                     this.setState( () => ({ 
                         sites: listOfSites,
-                        moneroOld: moneroAcc 
+                        moneroAcc: moneroAcc 
                     }));
                     if (listOfSites.length > 0) {
                         this.setState( () => ({ userHasSites: true }));
@@ -355,7 +407,7 @@ export default class Profile extends React.Component {
                                         <div className="row gutters" >
                                             <div className="col">
                                                 <div className="input-group change-monero-group">
-                                                    <input type="text" className="form-control" placeholder={this.state.moneroOld} aria-label="Password" readOnly={true}  />
+                                                    <input type="text" className="form-control" placeholder={this.state.moneroAcc} aria-label="Password" readOnly={true}  />
                                                     <span className="input-group-btn">
                                                         <button id="change-monero" className="btn btn-primary" type="button" onClick={ this.activateChangeMonero }>Change</button>
                                                     </span>

@@ -392,7 +392,7 @@ export default class DashboardMain extends React.Component {
             .catch( (error) => {
                 console.log(error);
             });*/
-            console.log("Perfect! Your money are on the way to your bank account!");
+            alert("Perfect! Your money are on the way to your Monero account!");
         } else {
             console.log("Withdrawal is not available for your account. Please try again later.");
         }

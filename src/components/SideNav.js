@@ -2,7 +2,8 @@ import React from 'react';
 import { NavLink } from 'react-router-dom';
 import $ from 'jquery';
 import axios from 'axios';
-//import 'tether';
+import baseApi from '../components/App';
+import 'tether';
 import 'bootstrap';
 import 'metismenu';
 import 'onoffcanvas';
@@ -15,14 +16,14 @@ export default class SideNav extends React.Component {
 
     logOut = (e) => {
         e.preventDefault();
-        axios.delete('http://www.prile.io/api/session',
+        axios.delete(baseApi + '/api/session',
             {
                 headers: { 'Content-Type': 'application/json' }
             })
             .then( (response) => {
                 if (response.status == 200) {
                     sessionStorage.setItem('isLoggedIn', false);
-                    window.location.href = 'http://prile.karma-dev.pro/';
+                    window.location.href = '/';
                 }
             })
             .catch( (error) => {

@@ -1,6 +1,7 @@
 import React from 'react';
 import $ from 'jquery';
 import axios from 'axios';
+import baseApi from '../components/App';
 import c3 from 'c3';
 import dateFormat from 'dateformat';
 import { Icon } from 'react-icons-kit';
@@ -377,7 +378,7 @@ export default class DashboardMain extends React.Component {
     moneroWithdraw = () => {
         if (this.state.withdrawalAvailable) {
             /*
-            axios.post('http://www.prile.io/api/finance/withdrawals',
+            axios.post(baseApi + '/finance/withdrawals',
             {
                 headers: { 'Content-Type': 'application/json' }
             })
@@ -402,7 +403,7 @@ export default class DashboardMain extends React.Component {
 
         this.lastWeek();
 
-        axios.get('http://www.prile.io/api/accounts/current',
+        axios.get(baseApi + '/accounts/current',
             {
                 headers: { 'Content-Type': 'application/json' }
             })
@@ -417,7 +418,7 @@ export default class DashboardMain extends React.Component {
                 console.log(error);
             });
 
-        axios.get('http://www.prile.io/api/accounts/current/dashboardStats',
+        axios.get(baseApi + '/accounts/current/dashboardStats',
             {
                 headers: { 'Content-Type': 'application/json' }
             })
@@ -457,7 +458,7 @@ export default class DashboardMain extends React.Component {
                 console.log(error);
             });
 
-        axios.get('http://www.prile.io/api/finance/cash',
+        axios.get(baseApi + '/finance/cash',
             {
                 headers: { 'Content-Type': 'application/json' }
             })

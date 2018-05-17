@@ -18,7 +18,11 @@ const PrivateRoute = ({ component: Component,...rest }) => (
         ? <Component {...props} />
         : window.location.href = '/login'
     )} />
-  )
+);
+
+export let baseApi = 
+//'http://www.prile.io/api';
+'http://prile-portal.eu-central-1.elasticbeanstalk.com';
 
 const App = ({ location }) => {
 

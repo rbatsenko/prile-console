@@ -1,18 +1,14 @@
 import React from 'react';
 import $ from 'jquery';
 import axios from 'axios';
+import baseApi from '../components/App';
 import dateFormat from 'dateformat';
 
 export default class History extends React.Component {
 
     componentDidMount() {
 
-        const user = {
-            email: localStorage.getItem('email'),
-            password: localStorage.getItem('password')
-        }
-
-        axios.get('http://www.prile.io/api/finance/withdrawals',
+        axios.get(baseApi + '/finance/withdrawals',
             {
                 headers: { 'Content-Type': 'application/json' }
             })

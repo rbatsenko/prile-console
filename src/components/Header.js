@@ -1,14 +1,12 @@
 import React from 'react';
 import $ from 'jquery';
 import axios from 'axios';
-import baseApi from '../components/App';
 import { NavLink } from 'react-router-dom';
 import { Icon } from 'react-icons-kit';
 import { ic_exit_to_app } from 'react-icons-kit/md/ic_exit_to_app';
 import { thinLeft } from 'react-icons-kit/entypo/thinLeft';
 import { thinRight } from 'react-icons-kit/entypo/thinRight';
-import { ic_menu } from 'react-icons-kit/md/ic_menu'
-import { baseApi } from './App';
+import { ic_menu } from 'react-icons-kit/md/ic_menu';
 
 const style1 = {
     width: '87%'
@@ -24,7 +22,7 @@ const style3 = {
 
 const logOut = (e) => {
     e.preventDefault();
-    axios.delete(baseApi + '/session',
+    axios.delete('/session',
         {
             headers: { 'Content-Type': 'application/json' }
         })

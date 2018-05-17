@@ -1,5 +1,6 @@
 import React from 'react';
 import { Route, Switch, withRouter } from 'react-router-dom';
+import axios from 'axios';
 import pathToRegexp from 'path-to-regexp';
 import Header from '../components/Header';
 import SideNav from '../components/SideNav';
@@ -16,11 +17,11 @@ const PrivateRoute = ({ component: Component,...rest }) => (
     <Route {...rest} render={(props) => (
       sessionStorage.getItem('isLoggedIn')
         ? <Component {...props} />
-        : window.location.href = '/login'
+        : console.log('error')
     )} />
 );
 
-export let baseApi = 
+axios.defaults.baseURL = 
 //'http://www.prile.io/api';
 'http://prile-portal.eu-central-1.elasticbeanstalk.com';
 

@@ -1,7 +1,6 @@
 import React from 'react';
 import $ from 'jquery';
 import axios from 'axios';
-import baseApi from '../components/App';
 import c3 from 'c3';
 import dateFormat from 'dateformat';
 import { Icon } from 'react-icons-kit';
@@ -378,7 +377,7 @@ export default class DashboardMain extends React.Component {
     moneroWithdraw = () => {
         if (this.state.withdrawalAvailable) {
             /*
-            axios.post(baseApi + '/finance/withdrawals',
+            axios.post('/finance/withdrawals',
             {
                 headers: { 'Content-Type': 'application/json' }
             })
@@ -403,7 +402,7 @@ export default class DashboardMain extends React.Component {
 
         this.lastWeek();
 
-        axios.get(baseApi + '/accounts/current',
+        axios.get('/accounts/current',
             {
                 headers: { 'Content-Type': 'application/json' }
             })
@@ -414,11 +413,11 @@ export default class DashboardMain extends React.Component {
                 }
             })
             .catch( (error) => {
-                window.location.href = '/login';
+                //window.location.href = '/login';
                 console.log(error);
             });
 
-        axios.get(baseApi + '/accounts/current/dashboardStats',
+        axios.get('/accounts/current/dashboardStats',
             {
                 headers: { 'Content-Type': 'application/json' }
             })
@@ -458,7 +457,7 @@ export default class DashboardMain extends React.Component {
                 console.log(error);
             });
 
-        axios.get(baseApi + '/finance/cash',
+        axios.get('/finance/cash',
             {
                 headers: { 'Content-Type': 'application/json' }
             })

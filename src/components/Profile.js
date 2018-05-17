@@ -1,7 +1,6 @@
 import React from 'react';
 import $ from 'jquery';
 import axios from 'axios';
-import baseApi from '../components/App';
 
 export default class Profile extends React.Component {
 
@@ -95,7 +94,7 @@ export default class Profile extends React.Component {
         let passNew = this.state.passwordNew1;
 
         if (passNew === this.state.passwordNew2) {
-            axios.put(baseApi + '/accounts/current/password', {
+            axios.put('/accounts/current/password', {
                 newPassword: passNew,
                 oldPassword: passOld
             },
@@ -175,7 +174,7 @@ export default class Profile extends React.Component {
     updateSiteDesc = (e) => {
         //$(e.target)
 
-        axios.post(baseApi + '/api/accounts', {
+        axios.post('/api/accounts', {
                 description: user.siema,
                 siteId: user.password
             },
@@ -206,7 +205,7 @@ export default class Profile extends React.Component {
         if ( this.state.newSiteDesc.length > 0 ) {
             console.log('elo');
         /*
-        axios.post(baseApi + '/accounts/current/sites', {
+        axios.post('/accounts/current/sites', {
                 description: this.state.newSiteDesc
             },
             {
@@ -215,7 +214,7 @@ export default class Profile extends React.Component {
             )
             .then((response) => {
                 if (response.status == '200') {
-                    axios.get(baseApi + '/api/accounts/current',
+                    axios.get('/api/accounts/current',
                         {
                             headers: { 'Content-Type': 'application/json' }
                         })
@@ -245,7 +244,7 @@ export default class Profile extends React.Component {
 
     componentDidMount() {
 
-        axios.get(baseApi + '/api/accounts/current',
+        axios.get('/api/accounts/current',
             {
                 headers: { 'Content-Type': 'application/json' }
             })

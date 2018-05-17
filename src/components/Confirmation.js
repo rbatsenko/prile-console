@@ -1,7 +1,6 @@
 import React from 'react';
 import $ from 'jquery';
 import axios from 'axios';
-import baseApi from '../components/App';
 
 const Confirmation = () => {
     $('.app-wrap').css('opacity', '0');
@@ -18,7 +17,7 @@ const Confirmation = () => {
     let path = window.location.pathname.split( '/' );
     console.log(path);
 
-    axios.put(baseApi + '/accounts/actions/emailConfirmation', {
+    axios.put('/accounts/actions/emailConfirmation', {
                 confirmationPhrase: path[5],
                 email: path[3]
             },

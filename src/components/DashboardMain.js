@@ -376,7 +376,6 @@ export default class DashboardMain extends React.Component {
 
     moneroWithdraw = () => {
         if (this.state.withdrawalAvailable) {
-            /*
             axios.post('/finance/withdrawals',
             {
                 headers: { 'Content-Type': 'application/json' }
@@ -391,7 +390,7 @@ export default class DashboardMain extends React.Component {
             })
             .catch( (error) => {
                 console.log(error);
-            });*/
+            });
             alert("Perfect! Your money are on the way to your Monero account!");
         } else {
             console.log("Withdrawal is not available for your account. Please try again later.");

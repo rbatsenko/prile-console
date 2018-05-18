@@ -15,7 +15,7 @@ export default class SideNav extends React.Component {
 
     logOut = (e) => {
         e.preventDefault();
-        axios.delete(baseApi + '/api/session',
+        axios.delete('/session',
             {
                 headers: { 'Content-Type': 'application/json' }
             })

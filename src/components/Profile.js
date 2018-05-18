@@ -256,7 +256,7 @@ export default class Profile extends React.Component {
     addWebsite = () => {
         if ( this.state.newSiteDesc.length > 0 ) {
             console.log('elo');
-        /*
+        
         axios.post('/accounts/current/sites', {
                 description: this.state.newSiteDesc
             },
@@ -288,7 +288,7 @@ export default class Profile extends React.Component {
             })
             .catch((error) => {
                 //console.log(error);
-            });*/
+            });
         } else {
             this.setState({ newSiteDescError: 'Please fill out the Description field!' });
         }

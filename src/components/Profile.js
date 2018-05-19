@@ -351,6 +351,9 @@ export default class Profile extends React.Component {
                 }
             })
             .catch( (error) => {
+                if (error.status === 401) {
+                    window.location = '/login';
+                }
                 console.log(error);
             });
 

@@ -16,7 +16,7 @@ export default class DashboardMain extends React.Component {
         dataChoice: 'general',
         activeGraph: 'month',
         moneroAmount: 0,
-        withdrawalAvailable: false
+        withdrawalAvailable: false,
     }
 
     numberWithSpaces = (x) => {
@@ -412,8 +412,8 @@ export default class DashboardMain extends React.Component {
                 }
             })
             .catch( (error) => {
-                //window.location.href = '/login';
-                console.log(error);
+                window.location.href = '/login';
+                //console.log(error);
             });
 
         axios.get('/accounts/current/dashboardStats',

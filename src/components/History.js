@@ -24,7 +24,10 @@ export default class History extends React.Component {
                     $('.app-wrap').css('opacity', '1');
                 }
             })
-            .catch(function (error) {
+            .catch((error) => {
+                if (error.status === 401) {
+                    window.location = '/login';
+                }
                 console.log(error);
             });
 

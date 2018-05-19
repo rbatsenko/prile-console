@@ -125,6 +125,32 @@
 	line-height: 1.5rem;
 }
 
+.form-control {
+	&.focus-red {
+		&:focus {
+			border-color: #ff3e61;
+		}		
+	}
+}
+
+.input-group {
+	& > .form-control {
+		padding: .375rem 1rem;
+	}
+}
+
+label {
+    margin-left: 1rem;
+}
+
+.profile {
+	.card {
+		.card-header {
+			padding: .75rem 2rem;
+		}
+	}
+}
+
 .general-table {
 	thead {
 		tr {
@@ -168,11 +194,19 @@
 }
 
 .input-error {
-    font-family: Open Sans, sans-serif;
     font-size: 11px;
     position: absolute;
     bottom: -10px;
-    left: 21px;
+	left: 21px;
+	
+	&.password-error,
+	&.monero-error {
+		bottom: -15px;
+	}
+
+	&.monero-error {
+		left: 18px;
+	}
 }
 
 .password-group,
@@ -340,7 +374,9 @@
 }
 
 .table.general-table th,
-.table.general-table td {
+.table.general-table td,
+.table.withdrawals-history th,
+.table.withdrawals-history td {
     border: none;
 }
 

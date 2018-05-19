@@ -6,11 +6,13 @@ export default class Profile extends React.Component {
 
     state = {
         passwordChangeActive: false,
+        passwordError: '',
         passwordOld: '',
         passwordNew1: '',
         passwordNew2: '',
         email: sessionStorage.getItem('email'),
         moneroChangeActive: false,
+        moneroError: '',
         moneroAcc: '',
         moneroOld: '',
         moneroNew: '',
@@ -60,7 +62,7 @@ export default class Profile extends React.Component {
                         data-placement="bottom"
                         data-original-title="Please click the button to copy your Site ID to clipboard"
                         >
-                        Copy to clipboard
+                        Copy
                     </button>
                 </span>
             </div>
@@ -82,13 +84,11 @@ export default class Profile extends React.Component {
     }
     
     activateChangePassword = (e) => {
-        console.log('activateChangePassword');
         this.setState(() => ({ passwordChangeActive: true }));
         this.clearPasswordFields();
     }
 
     cancelChangePassword = (e) => {
-        console.log('cancelChangePassword');
         this.setState(() => ({ passwordChangeActive: false }));
         this.clearPasswordFields();
     }
@@ -97,6 +97,32 @@ export default class Profile extends React.Component {
         this.setState(() => ({ passwordOld: '' }));
         this.setState(() => ({ passwordNew1: '' }));
         this.setState(() => ({ passwordNew2: '' }));
+    }
+
+    handleChangePasswordOld = (e) => {
+        this.setState({ 
+            passwordOld: e.target.value,
+            moneroError: ''
+        });
+    }
+
+    handleChangePasswordNew1 = (e) => {
+        this.setState({ passwordNew1: e.target.value });
+    }
+
+    handleChangePasswordNew2 = (e) => {
+        this.setState({ passwordNew2: e.target.value });
+    }
+
+    handlePasswordRepeat = (e) => {
+        if (this.state.passwordNew1 != e.target.value) {
+            this.setState({ passwordError: "Your passwords don't match!" });
+            $(e.target).parent().find('input').addClass('focus-red');
+            $('.password-error').removeClass('text-success');
+        } else {
+            this.setState({ passwordError: '' });
+            $(e.target).parent().find('input').removeClass('focus-red');
+        }
     }
 
     changePassword = (e) => {
@@ -114,7 +140,15 @@ export default class Profile extends React.Component {
             )
             .then((response) => {
                 if (response.status == '200') {
-                    alert('Success!');
+                    this.setState(() => ({
+                        passwordError: "You've succesfully changed your password, please use the new one in the future!"
+                    }));
+                    this.cancelChangePassword();
+                    $('.password-error').addClass('text-success');
+                    setTimeout( () => {
+                        this.setState({ passwordError: '' });
+                        $('.password-error').removeClass('text-success');
+                    }, 5000);
                 } else {
                     //localStorage.setItem('error', 'Please try another credentials!');
                     //window.location.href = 'http://prile.karma-dev.pro/login';
@@ -128,30 +162,12 @@ export default class Profile extends React.Component {
         }
     }
 
-    handleChangePasswordOld = (e) => {
-        this.setState({ passwordOld: e.target.value });
-    }
-
-    handleChangePasswordNew1 = (e) => {
-        this.setState({ passwordNew1: e.target.value });
-    }
-
-    handleChangePasswordNew2 = (e) => {
-        this.setState({ passwordNew2: e.target.value });
-    }
-
-    handlePasswordRepeat = (e) => {
-        this.state.passwordNew1 != e.target.value ? console.log('NOmatch') : console.log('match');
-    }
-
     activateChangeMonero = (e) => {
-        console.log('activateChangeMonero');
         this.setState(() => ({ moneroChangeActive: true }));
         this.clearMoneroFields();
     }
 
     cancelChangeMonero = (e) => {
-        console.log('cancelChangeMonero');
         this.setState(() => ({ moneroChangeActive: false }));
         this.clearMoneroFields();
     }
@@ -159,43 +175,60 @@ export default class Profile extends React.Component {
     clearMoneroFields = () => {
         this.setState(() => ({ moneroOld: '' }));
         this.setState(() => ({ moneroNew: '' }));
+        this.setState(() => ({ moneroError: ''}));
+    }
+
+    handleChangeMoneroNew = (e) => {
+        let moneroFormat = /^4([0-9]|[A-B])([0-9A-Za-z]){93}$/;
+        let moneroNew = e.target.value;
+        let testMonero = moneroFormat.test(moneroNew);
+        
+        if (testMonero) {
+            this.setState({ 
+                moneroNew: moneroNew,
+                moneroError: ''
+            });
+            $(e.target).removeClass('focus-red');
+        } else if (!e.target.value) {
+            this.setState({ moneroError: '' });
+            $(e.target).removeClass('focus-red');
+        } else {
+            this.setState({ moneroError: 'Wrong format for monero account number!'});
+            $(e.target).addClass('focus-red');
+        }
     }
 
     changeMonero = (e) => {
         let moneroNew = this.state.moneroNew;
         let password = this.state.passwordOld;
-        let moneroFormat = /^4([0-9]|[A-B])([0-9A-Za-z]){93}$/;
-        let testMonero = moneroFormat.test(moneroNew);
 
-        if (testMonero) {
-            axios.post('/accounts/current/moneroAccToBeConfirmed', {
-                moneroAcc: moneroNew,
-                password: password
-            },
-            {
-                headers: { 'Content-Type': 'application/json' }
-            }
-            )
-            .then((response) => {
-                if (response.status == '200') {
-                    if (response.data.status == 'INCORRECT_PASSWORD') {
-                        alert('Wrong password!');
-                    } else {
-                        alert('Success! Please find an email link for your new monero number confirmation in your inbox!');
-                    }
-                }
-            })
-            .catch((error) => {
-                console.log(error);
-            });
-        } else {
-            alert('Wrong format for monero account, please try again!');
+        axios.post('/accounts/current/moneroAccToBeConfirmed', {
+            moneroAcc: moneroNew,
+            password: password
+        },
+        {
+            headers: { 'Content-Type': 'application/json' }
         }
+        )
+        .then((response) => {
+            if (response.status == '200') {
+                if (response.data.status == 'INCORRECT_PASSWORD') {
+                    this.setState({ moneroError: 'Wrong password! Please try again!'});
+                } else {
+                    this.cancelChangeMonero();
+                    this.setState({ moneroError: 'Success! Please find an email link for your new monero number confirmation in your inbox!'});
+                    $('.monero-error').addClass('text-success');
+                    setTimeout( () => {
+                        this.setState({ moneroError: ''});
+                        $('.monero-error').removeClass('text-success');
+                    }, 5000);
+                }
+            }
+        })
+        .catch((error) => {
+            console.log(error);
+        });
         
-    }
-
-    handleChangeMoneroNew = (e) => {
-        this.setState({ moneroNew: e.target.value });
     }
 
     copyToClipboard = (e) => {
@@ -211,9 +244,10 @@ export default class Profile extends React.Component {
         if (!e.target.value.length) {
             this.setState({ changeSiteDescError: 'Please fill out the Description field!' });
             $(e.target).siblings('.input-error').addClass('visible');
+            $(e.target).addClass('focus-red');
         } else {
             this.setState({ changeSiteDescError: ''});
-            $(e.target).siblings('.input-error').removeClass('visible');
+            $(e.target).removeClass('focus-red');
         }
     }
 
@@ -251,11 +285,11 @@ export default class Profile extends React.Component {
     handleNewSiteDesc = (e) => {
         this.setState({ newSiteDesc: e.target.value });
         this.setState({ newSiteDescError: '' });
+        $(e.target).removeClass('focus-red');
     }
 
-    addWebsite = () => {
+    addWebsite = (e) => {
         if ( this.state.newSiteDesc.length > 0 ) {
-            console.log('elo');
         
         axios.post('/accounts/current/sites', {
                 description: this.state.newSiteDesc
@@ -291,6 +325,7 @@ export default class Profile extends React.Component {
             });
         } else {
             this.setState({ newSiteDescError: 'Please fill out the Description field!' });
+            $(e.target).parent().siblings('input').addClass('focus-red').focus();
         }
     }
 
@@ -335,7 +370,7 @@ export default class Profile extends React.Component {
 
     render() {
         return (
-            <div className="main-content">
+            <div className="main-content profile">
                 <div className="row gutters">
                     <div className="col-xl-8 col-lg-10 col-md-12 col-sm-12">
                         <div className="card">
@@ -359,12 +394,13 @@ export default class Profile extends React.Component {
                                                     <span className="input-group-btn">
                                                         <button id="change-password" className="btn btn-primary" type="button" onClick={ this.activateChangePassword }>Change</button>
                                                     </span>
+                                                    <p className="mb-0 text-secondary input-error password-error">{this.state.passwordError}</p>
                                                 </div>
                                             </div>
                                         </div>
                                     ) : (
                                         <div className="row gutters" >
-                                            <div className="col">
+                                            <div className="col-3">
                                                 <input
                                                     type="password"
                                                     className="form-control single-input"
@@ -392,6 +428,7 @@ export default class Profile extends React.Component {
                                                     <span className="input-group-btn">
                                                         <button id="update-password" className="btn btn-primary" type="button" onClick={ this.changePassword }>Save</button>
                                                     </span>
+                                                    <p className="mb-0 text-secondary input-error password-error">{this.state.passwordError}</p>
                                                 </div>
                                             </div>
                                             <div>
@@ -411,12 +448,13 @@ export default class Profile extends React.Component {
                                                     <span className="input-group-btn">
                                                         <button id="change-monero" className="btn btn-primary" type="button" onClick={ this.activateChangeMonero }>Change</button>
                                                     </span>
+                                                    <p className="mb-0 text-secondary input-error monero-error">{this.state.moneroError}</p>
                                                 </div>
                                             </div>
                                         </div>
                                     ) : (
                                         <div className="row gutters" >
-                                            <div className="col">
+                                            <div className="col-3">
                                                 <input
                                                     type="password"
                                                     className="form-control single-input"
@@ -435,6 +473,7 @@ export default class Profile extends React.Component {
                                                     <span className="input-group-btn">
                                                         <button id="update-monero" className="btn btn-primary" type="button" onClick={ this.changeMonero }>Save</button>
                                                     </span>
+                                                    <p className="mb-0 text-secondary input-error monero-error">{this.state.moneroError}</p>
                                                 </div>
                                             </div>
                                             <div>

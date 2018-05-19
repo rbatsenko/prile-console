@@ -494,7 +494,7 @@ export default class DashboardMain extends React.Component {
                                 {/* Row start */}
                                 <div className="row gutters">
                                     <div className="col-xl-3 col-lg-3 col-md-3 col-sm-12 d-flex align-items-center">
-                                        <h4 className="monero-amount">{this.state.moneroAmount}</h4>
+                                        <h4 className="monero-amount">{this.state.moneroAmount} P</h4>
                                     </div>
                                     <div className="col-xl-9 col-lg-9 col-md-9 col-sm-12 right-actions">
                                         <button className="btn btn-primary payment-request-btn float-right" title="Payment Request" data-toggle="modal" data-target="#exampleModal">
@@ -513,10 +513,10 @@ export default class DashboardMain extends React.Component {
 															<span aria-hidden="true">×</span>
 														</button>
 													</div>
-													<div className="modal-body">{this.state.moneroAmount}</div>
+													<div className="modal-body">Do You really want to transfer <strong>{this.state.moneroAmount} P</strong> to your monero account?</div>
 													<div className="modal-footer">
-														<button type="button" className="btn btn-secondary" data-dismiss="modal">Close</button>
-														<button type="button" className="btn btn-primary" data-dismiss="modal" onClick={ this.moneroWithdraw }>Withdraw</button>
+														<button type="button" className="btn btn-secondary" data-dismiss="modal">Cancel</button>
+														<button type="button" className="btn btn-primary" data-dismiss="modal" onClick={ this.moneroWithdraw }>Yes</button>
 													</div>
 												</div>
 											</div>

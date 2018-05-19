@@ -45,7 +45,7 @@ export default class History extends React.Component {
                         <div className="card">
                             <div className="card-header">History</div>
                             <div className="card-body">
-                                <table id="withdrawals-history" className="withdrawals-history table table-striped table-bordered">
+                                <table id="withdrawals-history" className="withdrawals-history table table-striped">
                                     <thead>
                                         <tr>
                                             <th>Date</th>

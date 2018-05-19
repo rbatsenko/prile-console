@@ -348,12 +348,12 @@ export default class Profile extends React.Component {
                     };
 
                     $('.app-wrap').css('opacity', '1');
+                } else if (response.status == 401) {
+                    window.location = '/login';
                 }
             })
             .catch( (error) => {
-                if (error.status === 401) {
-                    window.location = '/login';
-                }
+                window.location = '/login';
                 console.log(error);
             });
 

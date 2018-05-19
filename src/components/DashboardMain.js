@@ -409,11 +409,13 @@ export default class DashboardMain extends React.Component {
                 if (response.status == 200) {
                     const listOfSites = response.data.sites;
                     this.setState( () => ({ sites: listOfSites }));
+                } else if (response.status == 401) {
+                    window.location = '/login';
                 }
             })
             .catch( (error) => {
                 window.location.href = '/login';
-                //console.log(error);
+                console.log(error);
             });
 
         axios.get('/accounts/current/dashboardStats',

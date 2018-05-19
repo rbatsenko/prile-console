@@ -11,7 +11,7 @@ export default class History extends React.Component {
             {
                 headers: { 'Content-Type': 'application/json' }
             })
-            .then(function (response) {
+            .then( (response) => {
                 if (response.status == 200) {
                     let date = new Date(response.data[0].executionTime);
 
@@ -22,12 +22,12 @@ export default class History extends React.Component {
                     });
 
                     $('.app-wrap').css('opacity', '1');
+                } else if (response.status == 401) {
+                    window.location = '/login';
                 }
             })
             .catch((error) => {
-                if (error.status === 401) {
-                    window.location = '/login';
-                }
+                window.location = '/login';
                 console.log(error);
             });
 

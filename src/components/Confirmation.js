@@ -14,12 +14,12 @@ const Confirmation = () => {
         }, 500);
     }, 1000);*/
 
-    let path = window.location.pathname.split( '/' );
+    let path = window.location.href.split( '/' );
     console.log(path);
 
     axios.put('/accounts/actions/emailConfirmation', {
-                confirmationPhrase: path[5],
-                email: path[3]
+                confirmationPhrase: path[8],
+                email: path[6]
             },
             {
                 headers: { 'Content-Type': 'application/json' }

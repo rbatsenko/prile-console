@@ -27,7 +27,9 @@ axios.defaults.baseURL =
 
 const App = ({ location }) => {
 
+    console.log("Pathname", location.pathname);
     const currentKey = location.pathname.split('/')[1] || '/';
+    console.log("Current Key", currentKey);
 
     return (
         <div className="app-wrap">

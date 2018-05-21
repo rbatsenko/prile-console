@@ -20,7 +20,6 @@ export default class Confirmation extends React.Component {
         console.log(path);
 
         axios.put('/accounts/actions/emailConfirmation', {
-<<<<<<< HEAD
                     confirmationPhrase: path[8],
                     email: path[6]
                 },
@@ -43,30 +42,6 @@ export default class Confirmation extends React.Component {
                 });
     }
     
-=======
-                confirmationPhrase: path[8],
-                email: path[6]
-            },
-            {
-                headers: { 'Content-Type': 'application/json' }
-            }
-        )
-            .then((response) => {
-                console.log(response);
-                if (response.status == '200') {
-                    window.location.href = '/success';
-                } else {
-                    console.log('Error!');
-                    window.location.href = '/error';
-                }
-            })
-            .catch((error) => {
-                console.log(error);
-                window.location.href = '/error';
-            });
-    }
-
->>>>>>> eafe543f496b6cc5e4dca8c0a5b381cd96c88486
     render() {
         return (
             <div></div>

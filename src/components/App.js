@@ -21,15 +21,11 @@ const PrivateRoute = ({ component: Component,...rest }) => (
     )} />
 );
 
-axios.defaults.baseURL = 
-//'http://www.prile.io/api';
-'http://prile-portal.eu-central-1.elasticbeanstalk.com';
+axios.defaults.baseURL = '/api';
 
 const App = ({ location }) => {
 
-    console.log("Pathname", location.pathname);
     const currentKey = location.pathname.split('/')[1] || '/';
-    console.log("Current Key", currentKey);
 
     return (
         <div className="app-wrap">

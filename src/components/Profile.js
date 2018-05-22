@@ -40,7 +40,7 @@ export default class Profile extends React.Component {
                     <button 
                         id={"update-site-desc-" + index} 
                         className="btn btn-primary"
-                        onClick={this.updateSiteDesc}
+                        onClick={ (e) => { this.updateSiteDesc(e) }}
                         type="button"
                         >
                         Save
@@ -247,6 +247,7 @@ export default class Profile extends React.Component {
             $(e.target).addClass('focus-red');
         } else {
             this.setState({ changeSiteDescError: ''});
+            $(e.target).siblings('.input-error').removeClass('visible');
             $(e.target).removeClass('focus-red');
         }
     }
@@ -268,7 +269,12 @@ export default class Profile extends React.Component {
             .then((response) => {
                 //console.log(response);
                 if (response.status == '200') {
-                    alert('Success!');
+                    this.setState({ changeSiteDescError: "You've successfully changed site description!" });
+                    $('input[data-site-id=' + siteId + ']').siblings('.input-error').addClass('visible text-success');
+                    setTimeout( () => {
+                        this.setState({ changeSiteDescError: ''});
+                        $('input[data-site-id=' + siteId + ']').siblings('.input-error').removeClass('visible text-success');
+                    }, 5000);
                 } else {
                     //localStorage.setItem('error', 'Please try another credentials!');
                     //window.location.href = 'http://prile.karma-dev.pro/login';
@@ -278,7 +284,7 @@ export default class Profile extends React.Component {
                 //console.log(error);
             });
         } else {
-            alert('Please fill out the Desctiption field!');
+            this.setState({ changeSiteDescError: "Please fill out the description field!" });
         }
     }
 

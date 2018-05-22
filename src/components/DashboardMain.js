@@ -499,11 +499,11 @@ export default class DashboardMain extends React.Component {
                                         <h4 className="monero-amount">{this.state.moneroAmount} P</h4>
                                     </div>
                                     <div className="col-xl-9 col-lg-9 col-md-9 col-sm-12 right-actions">
-                                        <button className="btn btn-primary payment-request-btn float-right" title="Payment Request" data-toggle="modal" data-target="#exampleModal">
+                                        <button className="btn btn-primary payment-request-btn float-right" title="Payment Request" data-toggle="modal" data-target="#exampleModal" disabled={this.state.moneroAmount < 0.2 ? true : false}>
                                             <div className="payment-request-icon">
                                                 <Icon size={'100%'} icon={ download }/>
                                             </div>
-                                            <span>Payment Request</span>
+                                            <span>{this.state.moneroAmount > 0.2 ? 'Payment Request' : 'Monero amount < 0.2'}</span>
                                         </button>
 										
 										<div className="modal fade" id="exampleModal" tabIndex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">

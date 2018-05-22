@@ -27,7 +27,7 @@ export default class History extends React.Component {
                 }
             })
             .catch((error) => {
-                window.location = '/login';
+                //window.location = '/login';
                 console.log(error);
             });
 

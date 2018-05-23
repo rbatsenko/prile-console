@@ -19,7 +19,7 @@ module.exports = {
   },
   entry: './src/app.js',
   output: {
-    path: /*path.join(__dirname, 'public')*/ path.resolve(__dirname, '../www/console'),
+    path: path.join(__dirname, 'public'),
     filename: 'bundle.min.js'
   },
   module: {

@@ -5,6 +5,25 @@ import dateFormat from 'dateformat';
 
 export default class History extends React.Component {
 
+    state = {
+        history: []
+    }
+
+    HistoryTable = () => {
+        let history = this.state.history;
+        let historyTable = history.map((entry, index) =>
+            <tr key={index}>
+                <td>{!(entry.executionTime == null) ? dateFormat(entry.executionTime, "dd.mm.yyyy") : dateFormat(entry.orderTime, "dd.mm.yyyy")}</td>
+                <td>{!(entry.moneroAmount == null) ? entry.moneroAmount.toFixed(5) : <p className="font-italic">Waiting for approval</p>}</td>
+            </tr>
+        );
+        return (
+            <tbody>
+                {historyTable}
+            </tbody>
+        );
+    }
+
     componentDidMount() {
 
         axios.get('/finance/withdrawals',
@@ -13,15 +32,10 @@ export default class History extends React.Component {
             })
             .then( (response) => {
                 if (response.status == 200) {
-                    let date = new Date(response.data[0].executionTime);
 
-                    $.each(response.data, function(i, entry) {
-                        const date = new Date(entry.executionTime);
-                        var row = "<tr>" + "<td>" + dateFormat(date, "dd.mm.yyyy") + "</td>" + "<td>" + entry.moneroAmount.toFixed(5) + "</td>" + "</tr>"
-                        $(row).appendTo("#withdrawals-history tbody");
-                    });
-
+                    this.setState(() => ({ history: response.data }));
                     $('.app-wrap').css('opacity', '1');
+
                 } else if (response.status == 401) {
                     window.location = '/login';
                 }
@@ -48,17 +62,19 @@ export default class History extends React.Component {
                         <div className="card">
                             <div className="card-header">History</div>
                             <div className="card-body">
+                                {this.state.history.length ? (
                                 <table id="withdrawals-history" className="withdrawals-history table table-striped">
                                     <thead>
                                         <tr>
                                             <th>Date</th>
-                                            <th>Amount Withdrawn, $</th>
+                                            <th>Amount Withdrawn, P</th>
                                         </tr>
                                     </thead>
-                                    <tbody>
-
-                                    </tbody>
+                                    <this.HistoryTable />
                                 </table>
+                                ) : (
+                                    <p>No history yet...</p>
+                                )}
                             </div>
                         </div>
                     </div>

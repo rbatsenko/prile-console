@@ -81,6 +81,16 @@
 			}
 		}
 	}
+
+	.input-group:last-of-type {
+		.input-error {
+			opacity: 0;
+
+			&.visible {
+				opacity: 1;
+			}
+		}
+	}
 }
 
 .monero-amount {
@@ -185,6 +195,10 @@ label {
 			}
 		}
 	}
+
+	p {
+		margin-bottom: 0;
+	}
 }
 
 .add-website-card {
@@ -200,7 +214,8 @@ label {
 	left: 21px;
 	
 	&.password-error,
-	&.monero-error {
+	&.monero-error,
+	&.copy-success {
 		bottom: -15px;
 	}
 

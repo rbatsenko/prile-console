@@ -1,6 +1,6 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
-import { HashRouter, hashHistory } from 'react-router-dom';
+import { BrowserRouter, browserHistory } from 'react-router-dom';
 import App from './components/App';
 import 'tether';
 import 'popper.js';
@@ -16,7 +16,7 @@ import './styles/c3.min.css';
 sessionStorage.setItem('isLoggedIn', true);
 
 ReactDOM.render(
-    <HashRouter history={hashHistory}>
+    <BrowserRouter history={browserHistory} basename={'/console'}>
         <App />
-    </HashRouter>
+    </BrowserRouter>
 , document.getElementById('app'));

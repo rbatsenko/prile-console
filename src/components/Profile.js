@@ -21,7 +21,8 @@ export default class Profile extends React.Component {
         newSiteDesc: '',
         siteDescChangeId: '',
         changeSiteDescError: '',
-        newSiteDescError: ''
+        newSiteDescError: '',
+        copySuccess: ''
     }
 
     constructor(props) {
@@ -65,6 +66,7 @@ export default class Profile extends React.Component {
                         Copy
                     </button>
                 </span>
+                <p className="mb-0 text-success input-error copy-success">{this.state.copySuccess}</p>
             </div>
         </div>
 
@@ -234,8 +236,14 @@ export default class Profile extends React.Component {
     copyToClipboard = (e) => {
         $(e.target).parent().parent().find('input').select();
         document.execCommand("Copy");
-        e.target.dataset.originalTitle = "Your Site ID is succesfully copied to clipboard!";
-        alert('Your Site ID is succesfully copied to clipboard!');
+        let siteId = $(e.target).parent().siblings('input').val();
+        console.log(siteId);
+        this.setState({ copySuccess: "Your site ID is copied to clipboard!" });
+        $('input[value=' + siteId + ']').siblings('.input-error').addClass('visible');
+        setTimeout( () => {
+            this.setState({ copySuccess: ''});
+            $('input[value=' + siteId + ']').siblings('.input-error').removeClass('visible');
+        }, 5000);
     }
 
     handleChangeSiteDesc = (e) => {
@@ -306,13 +314,13 @@ export default class Profile extends React.Component {
             )
             .then((response) => {
                 if (response.status == '200') {
-                    axios.get('/accounts/current',
+                    axios.get('/accounts/current/sites',
                         {
                             headers: { 'Content-Type': 'application/json' }
                         })
                         .then( (response) => {
                             if (response.status == 200) {
-                                const listOfSites = response.data.sites;
+                                const listOfSites = response.data;
                                 this.setState( () => ({ 
                                     sites: listOfSites
                                 }));

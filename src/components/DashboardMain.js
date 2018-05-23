@@ -24,7 +24,6 @@ export default class DashboardMain extends React.Component {
     }
 
     SitesButtons = () => {
-
         const sites = this.state.sites;
         const sitesButtons = sites.map((site, index) =>
             <button type="button" className="btn btn-outline-primary btn-block" key={index} onClick={ (e) => { this.activeBtn(e); this.dataSwitch(e); } } data-site={site.siteId}>{site.description}</button>

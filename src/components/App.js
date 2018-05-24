@@ -21,9 +21,7 @@ const PrivateRoute = ({ component: Component,...rest }) => (
     )} />
 );
 
-axios.defaults.baseURL = 
-//'http://www.prile.io/api';
-'http://prile-portal.eu-central-1.elasticbeanstalk.com';
+axios.defaults.baseURL = '/api';
 
 const App = ({ location }) => {
 

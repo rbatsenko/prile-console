@@ -17,7 +17,6 @@ export default class Confirmation extends React.Component {
         }, 1000);*/
 
         let path = window.location.href.split( '/' );
-        console.log(path);
 
         if (path.includes('confirm')) {
             //Email Confirmation
@@ -39,36 +38,32 @@ export default class Confirmation extends React.Component {
                     }
                 })
                 .catch((error) => {
-                    console.log(error);
                     window.location.href = '/account/error/';
                 });
         } else if (path.includes('resetPassword')) {
             //Password reset
-            sessionStorage.setItem('email', path[5]);
-            sessionStorage.setItem('phrase', path[7]);
+            sessionStorage.setItem('email', path[6]);
+            sessionStorage.setItem('phrase', path[8]);
             window.location.href = '/password/set-new/';
         } else if (path.includes('moneroAccChangeConfirm')) {
             //Monero Change Confirmation
             axios.post('/accounts/actions/moneroAccChangeConfirmation', {
-                confirmationPhrase: path[8],
-                email: path[6]
+                confirmationPhrase: path[7],
+                email: path[5]
             },
             {
                 headers: { 'Content-Type': 'application/json' }
             }
             )
             .then((response) => {
-                if (response.data.status == 'OK') {
-                    window.location.href = '/success';
-                } else if (response.data.status == 'ALREADY_ACTIVE') {
-                    window.location.href = '/already-active';
+                if (response.status == 200) {
+                    window.location.href = '/monero/success/';
                 } else {
-                    window.location.href = '/error';
+                    window.location.href = '/monero/error/';
                 }
             })
             .catch((error) => {
-                console.log(error);
-                window.location.href = '/error';
+                window.location.href = '/monero/error/';
             });
         }
     }

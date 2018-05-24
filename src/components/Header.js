@@ -29,6 +29,7 @@ const logOut = (e) => {
         .then( (response) => {
             if (response.status == 200) {
                 sessionStorage.setItem('isLoggedIn', false);
+                sessionStorage.clear();
                 window.location.href = '/';
             }
         })

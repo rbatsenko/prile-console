@@ -30,8 +30,8 @@ export default class Profile extends React.Component {
     }
 
     SitesList = () => {
-        const sites = this.state.sites;
-        const sitesList = sites.map((site, index, e) =>
+        let sites = this.state.sites;
+        let sitesList = sites.map((site, index, e) =>
 
         <div id={"site-" + index} className="card-single-website" key={index}>
             <div className="input-group">
@@ -320,10 +320,8 @@ export default class Profile extends React.Component {
                         })
                         .then( (response) => {
                             if (response.status == 200) {
-                                const listOfSites = response.data;
-                                this.setState( () => ({ 
-                                    sites: listOfSites
-                                }));
+                                let listOfSites = response.data;
+                                this.setState((prevState, props) => ({ sites: listOfSites }));
                             }
                         })
                         .catch( (error) => {
@@ -378,11 +376,6 @@ export default class Profile extends React.Component {
                 $(this).removeClass('active selected current-page');
             }
         });
-
-        $( () => {
-            $('.copy-site-id-btn').tooltip();
-        });
-        
     }
 
     render() {
@@ -509,7 +502,7 @@ export default class Profile extends React.Component {
                     <div className="col-xl-8 col-lg-10 col-md-12 col-sm-12">
                         <div className="card">
                             <div className="card-header">Your websites</div>
-                            <this.SitesList />
+                            {this.state.sites.length && <this.SitesList />}
                         </div>
                     </div>
                 </div>
